@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-// import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login(props) {
   const navigation = useNavigation();
@@ -37,7 +37,9 @@ function Login(props) {
         });
 
       const response = await $http.get('/api/account');
-      console.log(response.data);
+      AsyncStorage.setItem('email', response.data.email);
+      AsyncStorage.setItem('username', response.data.username);
+      AsyncStorage.setItem('phone', response.data.phone);
     }
   };
 

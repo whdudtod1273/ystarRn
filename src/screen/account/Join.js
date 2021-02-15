@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 function Join(props) {
   const navigation = useNavigation();
   const [user, setUser] = useState({
@@ -65,6 +65,13 @@ function Join(props) {
       }
     }
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem('email').then((value) => {
+      const email = value;
+      console.log(email);
+    });
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
