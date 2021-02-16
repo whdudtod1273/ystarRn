@@ -13,7 +13,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function Login(props) {
+function Login() {
   const navigation = useNavigation();
   const [user, setUser] = useState({
     email: '',
@@ -80,7 +80,15 @@ function Login(props) {
             </Text>
           </Pressable>
         </View>
-        <View style={{marginTop: 10}}>
+        <View
+          style={{
+            marginTop: 10,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            // backgroundColor: 'red',
+            width: '100%',
+            paddingHorizontal: 40,
+          }}>
           <Pressable
             onPress={() => {
               navigation.navigate('회원가입');

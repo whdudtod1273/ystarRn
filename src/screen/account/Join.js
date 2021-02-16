@@ -66,13 +66,6 @@ function Join(props) {
     }
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem('email').then((value) => {
-      const email = value;
-      console.log(email);
-    });
-  }, []);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={[styles.joinContainer]}>
