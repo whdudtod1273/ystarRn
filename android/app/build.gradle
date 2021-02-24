@@ -122,6 +122,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -130,7 +131,17 @@ android {
 
     defaultConfig {
         applicationId "com.ystarrn"
-        minSdkVersion rootProject.ext.minSdkVersion
+        /*-- react-native-camera permission ==============================================*/
+        missingDimensionStrategy 'react-native-camera', 'general'
+        multiDexEnabled true 
+        /*-- react-native-camera permission END ==========================================*/
+
+        // edit
+        renderscriptTargetApi rootProject.ext.renderscriptVersion
+        renderscriptSupportModeEnabled true
+
+        // minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"

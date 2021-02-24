@@ -16,11 +16,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 function Login() {
   const navigation = useNavigation();
   const [user, setUser] = useState({
-    email: '',
-    password: '',
+    email: 'test1@test.com',
+    password: 'test1234!',
   });
   const {email, password} = user;
-
+  useEffect(() => {}, []);
   const Login = async () => {
     if (email === '') {
       Alert.alert('이메일을 입력해주세요');
@@ -34,6 +34,13 @@ function Login() {
         })
         .then((res) => {
           console.log(res);
+          if (res.status === 200) {
+            console.log('adad');
+            navigation.navigate('main');
+          }
+        })
+        .catch((e) => {
+          console.log(e);
         });
 
       const response = await $http.get('/api/account');

@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Camera from './select/upload/Camera';
 import Picker from './select/upload/Picker';
+import Filter from './select/Filter';
 const Tab = createMaterialTopTabNavigator();
 function Photo() {
   return (
@@ -25,10 +26,15 @@ function Photo() {
           tabStyle: {
             justifyContent: 'center',
           },
-          showLabel: false,
-        }}>
+          // showLabel: false,
+          activeBackgroundColor: 'skyblue',
+          activeTintColor: 'blue',
+          inactiveTintColor: '#101010',
+        }}
+        tabBarPosition="bottom">
         <Tab.Screen name="picker" component={Picker}></Tab.Screen>
         <Tab.Screen name="camera" component={Camera}></Tab.Screen>
+        {/* <Tab.Screen name="filter" component={Filter}></Tab.Screen> */}
       </Tab.Navigator>
     </SafeAreaView>
   );

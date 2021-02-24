@@ -35,6 +35,7 @@ import Activity from '../screen/activity/Activity';
 import Profile from '../screen/profile/Profile';
 import MainNavigation from './MainNavigation';
 import Test from '../screen/test';
+import Filter from '../screen/photo/select/Filter';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,8 +74,11 @@ function RootNavigation() {
       ) : (
         <SafeAreaView style={{flex: 1}}>
           <Stack.Navigator mode="modal">
+            <Stack.Screen name="로그인" component={Login} />
+            <Stack.Screen name="회원가입" component={Join} />
             <Stack.Screen name="main" component={MainNavigation} />
             <Stack.Screen name="photo" component={Photo} />
+            <Stack.Screen name="filter" component={Filter} />
           </Stack.Navigator>
         </SafeAreaView>
       )}
