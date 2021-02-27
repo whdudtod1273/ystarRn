@@ -30,12 +30,13 @@ import Login from '../screen/account/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from '../screen/home/Home';
 import Search from '../screen/search/Search';
-import Photo from '../screen/photo';
+import Photo from '../screen/photo/index';
 import Activity from '../screen/activity/Activity';
 import Profile from '../screen/profile/Profile';
 import MainNavigation from './MainNavigation';
 import Test from '../screen/test';
-import Filter from '../screen/photo/select/Filter';
+import Filter from '../screen/photo/upload/Filter';
+import Write from '../screen/photo/upload/Write';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,6 +59,26 @@ function RootNavigation() {
     setUserInfo({email, username});
   };
 
+  const HeaderRight = () => {
+    const navigation = useNavigation();
+    return (
+      <Pressable
+        onPress={() => {
+          navigation.navigate('Write', {});
+        }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: '#83C8F0',
+            paddingRight: 20,
+          }}>
+          다음
+        </Text>
+      </Pressable>
+    );
+  };
+
   useEffect(() => {
     getItem();
   }, []);
@@ -78,7 +99,14 @@ function RootNavigation() {
             <Stack.Screen name="회원가입" component={Join} />
             <Stack.Screen name="main" component={MainNavigation} />
             <Stack.Screen name="photo" component={Photo} />
-            <Stack.Screen name="filter" component={Filter} />
+            <Stack.Screen
+              name="filter"
+              options={{
+                headerRight: ({}) => <HeaderRight />,
+              }}
+              component={Filter}
+            />
+            <Stack.Screen name="Write" component={Write} />
           </Stack.Navigator>
         </SafeAreaView>
       )}

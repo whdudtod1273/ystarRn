@@ -14,7 +14,7 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import Exchange from '../../../../assets/svg/exchange.svg';
+import Exchange from '../../../assets/svg/exchange.svg';
 function Camera() {
   const navigation = useNavigation();
   const screenW = Dimensions.get('screen').width;

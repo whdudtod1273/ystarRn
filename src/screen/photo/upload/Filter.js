@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {
   Image,
   SafeAreaView,
@@ -43,6 +44,7 @@ import {
 } from 'react-native-image-filter-kit';
 
 function Filter({route}) {
+  const navigation = useNavigation();
   const picture = route?.params?.picture;
   const screenW = Dimensions.get('screen').width;
   const [selected, setSelected] = useState(false);
@@ -94,9 +96,9 @@ function Filter({route}) {
   // const filterList = filters.map((Item, index) => (
   //   <Item key={index} image={atx} />
   // ));
-
   const filterItem = SelectFilter.map((Item2, index) => (
     <Item2
+      key={index}
       onExtractImage={({nativeEvent}) => setFilterUri(nativeEvent.uri)}
       extractImageEnabled={true}
       image={atx2}

@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Camera from './select/upload/Camera';
-import Picker from './select/upload/Picker';
-import Filter from './select/Filter';
+import Camera from './upload/Camera';
+import Picker from './upload/Picker';
+import Filter from './upload/Filter';
 const Tab = createMaterialTopTabNavigator();
 function Photo() {
   return (
