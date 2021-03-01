@@ -46,7 +46,6 @@ import {
 function Filter({route}) {
   const navigation = useNavigation();
   const picture = route?.params?.picture;
-  console.log(route);
   const screenW = Dimensions.get('screen').width;
   const [selected, setSelected] = useState(false);
   const [SelectFilter, sertSelectFilter] = useState([]);
@@ -116,9 +115,13 @@ function Filter({route}) {
       style={{width: '100%', height: '100%'}}
       source={{uri: picture}}
       resizeMode={'cover'}
-      // ref={filterRef}
+      ref={filterRef}
     />
   );
+
+  // const filterList = filters.map((Item, index) => (
+  //   <Item key={index} image={atx} />
+  // ));
   const filterItem = SelectFilter.map((Item2, index) => (
     <Item2
       key={index}
@@ -128,7 +131,7 @@ function Filter({route}) {
     />
   ));
   const Item = ({Tes}) => <Tes.item image={atx} />;
-  // const filterRef = useRef();
+  const filterRef = useRef();
   const renderItem = (Tes) => (
     <Pressable
       onPress={() => {

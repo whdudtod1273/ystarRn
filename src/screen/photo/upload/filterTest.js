@@ -1,4 +1,10 @@
-import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+  useMemo,
+} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   Image,
@@ -46,7 +52,7 @@ import {
 function Filter({route}) {
   const navigation = useNavigation();
   const picture = route?.params?.picture;
-  console.log(route);
+  console.log(picture);
   const screenW = Dimensions.get('screen').width;
   const [selected, setSelected] = useState(false);
   const [SelectFilter, sertSelectFilter] = useState([]);
@@ -77,33 +83,33 @@ function Filter({route}) {
       headerRight: ({}) => <HeaderRight filterUri={filterUri} />,
     });
   }, [filterUri]);
-  const filters = [
-    AdenCompat,
-    BrannanCompat,
-    BrooklynCompat,
-    ClarendonCompat,
-    EarlybirdCompat,
-    GinghamCompat,
-    HudsonCompat,
-    InkwellCompat,
-    KelvinCompat,
-    LarkCompat,
-    LofiCompat,
-    MavenCompat,
-    MayfairCompat,
-    MoonCompat,
-    NashvilleCompat,
-    PerpetuaCompat,
-    ReyesCompat,
-    RiseCompat,
-    SlumberCompat,
-    StinsonCompat,
-    ToasterCompat,
-    ValenciaCompat,
-    WaldenCompat,
-    WillowCompat,
-    Xpro2Compat,
-  ];
+  // const filters = [
+  //   AdenCompat,
+  //   BrannanCompat,
+  //   BrooklynCompat,
+  //   ClarendonCompat,
+  //   EarlybirdCompat,
+  //   GinghamCompat,
+  //   HudsonCompat,
+  //   InkwellCompat,
+  //   KelvinCompat,
+  //   LarkCompat,
+  //   LofiCompat,
+  //   MavenCompat,
+  //   MayfairCompat,
+  //   MoonCompat,
+  //   NashvilleCompat,
+  //   PerpetuaCompat,
+  //   ReyesCompat,
+  //   RiseCompat,
+  //   SlumberCompat,
+  //   StinsonCompat,
+  //   ToasterCompat,
+  //   ValenciaCompat,
+  //   WaldenCompat,
+  //   WillowCompat,
+  //   Xpro2Compat,
+  // ];
   const atx = (
     <Image
       style={{width: 100, height: 100, marginRight: 5}}
@@ -111,44 +117,52 @@ function Filter({route}) {
       resizeMode={'cover'}
     />
   );
-  const atx2 = (
-    <Image
-      style={{width: '100%', height: '100%'}}
-      source={{uri: picture}}
-      resizeMode={'cover'}
-      // ref={filterRef}
-    />
+  const list = (
+    <>
+      <AdenCompat image={atx} />
+      <BrannanCompat image={atx} />
+      <BrooklynCompat image={atx} />
+      <ClarendonCompat image={atx} />
+      <EarlybirdCompat image={atx} />
+      <GinghamCompat image={atx} />
+      <HudsonCompat image={atx} />
+      <InkwellCompat image={atx} />
+      <KelvinCompat image={atx} />
+      <LarkCompat image={atx} />
+      <LofiCompat image={atx} />
+      <MavenCompat image={atx} />
+      <MayfairCompat image={atx} />
+      <MoonCompat image={atx} />
+      <NashvilleCompat image={atx} />
+      <PerpetuaCompat image={atx} />
+      <ReyesCompat image={atx} />
+      <RiseCompat image={atx} />
+      <SlumberCompat image={atx} />
+      <StinsonCompat image={atx} />
+      <ToasterCompat image={atx} />
+      <ValenciaCompat image={atx} />
+      <WaldenCompat image={atx} />
+      <WillowCompat image={atx} />
+      <Xpro2Compat image={atx} />
+    </>
   );
-  const filterItem = SelectFilter.map((Item2, index) => (
-    <Item2
-      key={index}
-      onExtractImage={({nativeEvent}) => setFilterUri(nativeEvent.uri)}
-      extractImageEnabled={true}
-      image={atx2}
-    />
-  ));
-  const Item = ({Tes}) => <Tes.item image={atx} />;
-  // const filterRef = useRef();
-  const renderItem = (Tes) => (
-    <Pressable
-      onPress={() => {
-        setSelected(true);
-        sertSelectFilter([Tes.item]);
-      }}>
-      <Text style={{fontSize: 9, textAlign: 'center', marginBottom: 5}}>
-        {Tes.item.displayName}
-      </Text>
-      <Item
-        Tes={Tes}
-        style={{
-          justifyContent: 'center',
-          height: '100%',
-          flex: 1,
-          width: '100%',
-        }}
-      />
-    </Pressable>
-  );
+  useEffect(() => {
+    console.log('count');
+  }, [list]);
+  const [filterList, setFilterList] = useState([]);
+  // useLayoutEffect(() => {
+  //   const filterList = filters.map((Item, index) => (
+  //     <Pressable
+  //       onPress={() => {
+  //         setSelected(true);
+  //         sertSelectFilter([Tes.item]);
+  //       }}
+  //       key={index}>
+  //       <Item image={atx} />
+  //     </Pressable>
+  //   ));
+  //   setFilterList(filterList);
+  // }, []);
 
   return picture ? (
     <SafeAreaView style={{flex: 1}}>
@@ -173,7 +187,8 @@ function Filter({route}) {
           )}
         </View>
         <View style={[styles.photoBox2]}>
-          <FlatList
+          <ScrollView>{list}</ScrollView>
+          {/* <FlatList
             style={{
               height: '100%',
             }}
@@ -185,7 +200,7 @@ function Filter({route}) {
             horizontal={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
-          />
+          /> */}
         </View>
       </View>
     </SafeAreaView>

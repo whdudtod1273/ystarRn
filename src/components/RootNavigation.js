@@ -46,6 +46,7 @@ function RootNavigation() {
     email: '',
     username: '',
   });
+  const [filter, serFilter] = useState({});
 
   const getItem = async () => {
     let email = '';
@@ -57,26 +58,6 @@ function RootNavigation() {
       username = value;
     });
     setUserInfo({email, username});
-  };
-
-  const HeaderRight = () => {
-    const navigation = useNavigation();
-    return (
-      <Pressable
-        onPress={() => {
-          navigation.navigate('Write', {});
-        }}>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#83C8F0',
-            paddingRight: 20,
-          }}>
-          다음
-        </Text>
-      </Pressable>
-    );
   };
 
   useEffect(() => {
@@ -101,9 +82,12 @@ function RootNavigation() {
             <Stack.Screen name="photo" component={Photo} />
             <Stack.Screen
               name="filter"
-              options={{
-                headerRight: ({}) => <HeaderRight />,
-              }}
+              // options={{
+              //   headerRight: ({}) => <HeaderRight test={test} />,
+              // }}
+              // options={({navigation, route}) => ({
+              //   headerRight: ({}) => <HeaderRight />,
+              // })}
               component={Filter}
             />
             <Stack.Screen name="Write" component={Write} />
