@@ -17,7 +17,7 @@ function Login() {
   const navigation = useNavigation();
   const [user, setUser] = useState({
     email: 'test1@test.com',
-    password: 'test1234!',
+    password: 'qwer1234!',
   });
   const {email, password} = user;
   useEffect(() => {}, []);
@@ -35,7 +35,8 @@ function Login() {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
-            console.log('adad');
+            navigation.navigate('main');
+          } else if (res.status === 304) {
             navigation.navigate('main');
           }
         })

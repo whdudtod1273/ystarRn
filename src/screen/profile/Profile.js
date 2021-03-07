@@ -17,11 +17,22 @@ import {useNavigation} from '@react-navigation/native';
 function Profile() {
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
+  const [profileUrl, setProfileUrl] = useState();
+  const [profilePhoto, setProfilePhoto] = useState();
   useEffect(() => {
     $http.get('/api/account/mypage/1').then((res) => {
       setProfileData(res);
     });
   }, [photo]);
+
+  useEffect(() => {
+    $http.get(`/api/account/mypage/1`).then((res) => {
+      console.log(res);
+      const url = res.data.Profile.url.split('/');
+      setProfileUrl(res.data.Profile.url.split('/'));
+      setProfilePhoto(`/api/image/${url[url.length - 1]}`);
+    });
+  }, []);
   const getProfile = async () => {
     try {
       const options = {
@@ -61,6 +72,9 @@ function Profile() {
           .then((res) => {
             console.log(res);
             if (res.status === 200) {
+              const url = res.data.Profile.url.split('/');
+              setProfileUrl(res.data.Profile.url.split('/'));
+              setProfilePhoto(`/api/image/${url[url.length - 1]}`);
               console.log('수정 완료');
             }
           });
@@ -69,7 +83,7 @@ function Profile() {
         console.log(err);
       });
   };
-  return (
+  return profilePhoto ? (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, width: '100%', height: '100%'}}>
         <Pressable
@@ -77,22 +91,30 @@ function Profile() {
             getProfile();
           }}>
           <View style={[styles.profileBox]}>
-            {/* <Image
-            source={{uri:}}
-            /> */}
+            <Image
+              source={{
+                uri: $baseUrl + profilePhoto,
+              }}
+              // source={{
+              //   uri: '',
+              //   isStatic: true,
+              // }}
+              style={{width: '100%', height: '100%', borderRadius: 70}}
+              resizeMode="cover"
+            />
           </View>
         </Pressable>
       </View>
     </SafeAreaView>
-  );
+  ) : null;
 }
 const styles = StyleSheet.create({
   profileBox: {
     width: 70,
     height: 70,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: '#dedede',
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: 70,
   },
 });
