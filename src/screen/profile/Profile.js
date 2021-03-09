@@ -11,25 +11,25 @@ import {
   StyleSheet,
   Pressable,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 function Profile() {
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
-  const [profileUrl, setProfileUrl] = useState();
   const [profilePhoto, setProfilePhoto] = useState();
   useEffect(() => {
     $http.get('/api/account/mypage/1').then((res) => {
-      setProfileData(res);
+      setProfileData(res.data);
     });
   }, [photo]);
 
   useEffect(() => {
     $http.get(`/api/account/mypage/1`).then((res) => {
       console.log(res);
+      setProfileData(res.data);
       const url = res.data.Profile.url.split('/');
-      setProfileUrl(res.data.Profile.url.split('/'));
       setProfilePhoto(`/api/image/${url[url.length - 1]}`);
     });
   }, []);
@@ -73,7 +73,6 @@ function Profile() {
             console.log(res);
             if (res.status === 200) {
               const url = res.data.Profile.url.split('/');
-              setProfileUrl(res.data.Profile.url.split('/'));
               setProfilePhoto(`/api/image/${url[url.length - 1]}`);
               console.log('수정 완료');
             }
@@ -83,27 +82,48 @@ function Profile() {
         console.log(err);
       });
   };
-  return profilePhoto ? (
+
+  const getFollowing = () => {};
+  const getFollower = () => {};
+
+  return profileData ? (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, width: '100%', height: '100%'}}>
-        <Pressable
-          onPress={() => {
-            getProfile();
-          }}>
-          <View style={[styles.profileBox]}>
+        <View style={[styles.conBox1]}>
+          <Pressable
+            style={[styles.profileBox]}
+            onPress={() => {
+              getProfile();
+            }}>
             <Image
               source={{
                 uri: $baseUrl + profilePhoto,
               }}
-              // source={{
-              //   uri: '',
-              //   isStatic: true,
-              // }}
               style={{width: '100%', height: '100%', borderRadius: 70}}
               resizeMode="cover"
             />
+          </Pressable>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Pressable>
+              <Text>{profileData.BoardList.length}</Text>
+              <Text>게시물</Text>
+            </Pressable>
+            <Pressable>
+              <Text>{profileData.follower}</Text>
+              <Text>팔로워</Text>
+            </Pressable>
+            <Pressable>
+              <Text>{profileData.following}</Text>
+              <Text>팔로잉</Text>
+            </Pressable>
           </View>
+        </View>
+        <Pressable style={[styles.profileEdit]}>
+          <Text style={{}}>프로필 편집</Text>
         </Pressable>
+        <View style={[styles.conBox2]}>
+          <ScrollView></ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   ) : null;
@@ -117,5 +137,14 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fff',
     borderRadius: 70,
   },
+  conBox1: {
+    flexDirection: 'row',
+  },
+  profileEdit: {
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  conBox2: {},
 });
 export default Profile;
