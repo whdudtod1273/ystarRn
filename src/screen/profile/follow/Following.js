@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Image,
   SafeAreaView,
@@ -8,11 +9,12 @@ import {
   Pressable,
 } from 'react-native';
 
-function Follow() {
+function Following() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View></View>
     </SafeAreaView>
   );
 }
-export default Follow;
+
+export default Following;

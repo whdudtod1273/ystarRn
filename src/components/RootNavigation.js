@@ -37,6 +37,7 @@ import MainNavigation from './MainNavigation';
 import Test from '../screen/test';
 import Filter from '../screen/photo/upload/Filter';
 import Write from '../screen/photo/upload/Write';
+import Follow from '../screen/profile/follow/Follow';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -91,6 +92,7 @@ function RootNavigation() {
               component={Filter}
             />
             <Stack.Screen name="Write" component={Write} />
+            <Stack.Screen name="follow" component={Follow} />
           </Stack.Navigator>
         </SafeAreaView>
       )}

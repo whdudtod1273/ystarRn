@@ -16,6 +16,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 function Profile() {
+  const navigation = useNavigation();
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
   const [profilePhoto, setProfilePhoto] = useState();
@@ -87,40 +88,53 @@ function Profile() {
   const getFollower = () => {};
 
   return profileData ? (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, width: '100%', height: '100%'}}>
         <View style={[styles.conBox1]}>
-          <Pressable
-            style={[styles.profileBox]}
-            onPress={() => {
-              getProfile();
-            }}>
-            <Image
-              source={{
-                uri: $baseUrl + profilePhoto,
-              }}
-              style={{width: '100%', height: '100%', borderRadius: 70}}
-              resizeMode="cover"
-            />
-          </Pressable>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Pressable>
-              <Text>{profileData.BoardList.length}</Text>
-              <Text>게시물</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Pressable
+              style={[styles.profileBox]}
+              onPress={() => {
+                getProfile();
+              }}>
+              <Image
+                source={{
+                  uri: $baseUrl + profilePhoto,
+                }}
+                style={{width: '100%', height: '100%', borderRadius: 70}}
+                resizeMode="cover"
+              />
             </Pressable>
-            <Pressable>
-              <Text>{profileData.follower}</Text>
-              <Text>팔로워</Text>
-            </Pressable>
-            <Pressable>
-              <Text>{profileData.following}</Text>
-              <Text>팔로잉</Text>
-            </Pressable>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                flex: 1,
+              }}>
+              <Pressable style={[styles.btn1]}>
+                <Text style={[styles.text1]}>
+                  {profileData.BoardList.length}
+                </Text>
+                <Text style={[styles.text2, {marginTop: 3}]}>게시물</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.btn1]}
+                onPress={() => {
+                  navigation.navigate('follow');
+                }}>
+                <Text style={[styles.text1]}>{profileData.follower}</Text>
+                <Text style={[styles.text2, {marginTop: 3}]}>팔로워</Text>
+              </Pressable>
+              <Pressable style={[styles.btn1]}>
+                <Text style={[styles.text1]}>{profileData.following}</Text>
+                <Text style={[styles.text2, {marginTop: 3}]}>팔로잉</Text>
+              </Pressable>
+            </View>
           </View>
+          <Pressable style={[styles.profileEdit]}>
+            <Text style={{fontSize: 17}}>프로필 편집</Text>
+          </Pressable>
         </View>
-        <Pressable style={[styles.profileEdit]}>
-          <Text style={{}}>프로필 편집</Text>
-        </Pressable>
         <View style={[styles.conBox2]}>
           <ScrollView></ScrollView>
         </View>
@@ -138,13 +152,28 @@ const styles = StyleSheet.create({
     borderRadius: 70,
   },
   conBox1: {
-    flexDirection: 'row',
+    padding: 20,
+    paddingBottom: 30,
+    borderBottomColor: '#dedede',
+    borderBottomWidth: 1,
   },
   profileEdit: {
-    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#dedede',
+    borderRadius: 5,
+    paddingVertical: 7,
+    marginTop: 20,
   },
-  conBox2: {},
+  conBox2: {
+    flex: 1,
+  },
+  text1: {fontSize: 17},
+  text2: {fontSize: 17},
+  btn1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 export default Profile;
