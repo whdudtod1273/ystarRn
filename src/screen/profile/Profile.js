@@ -20,6 +20,8 @@ function Profile() {
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
   const [profilePhoto, setProfilePhoto] = useState();
+  const [follower, setFollower] = useState([]);
+  const [following, setFollowing] = useState([]);
   useEffect(() => {
     $http.get('/api/account/mypage/1').then((res) => {
       setProfileData(res.data);
@@ -33,6 +35,16 @@ function Profile() {
       const url = res.data.Profile.url.split('/');
       setProfilePhoto(`/api/image/${url[url.length - 1]}`);
     });
+    $http
+      .get('/api/account/follow/1')
+      .then((res) => {
+        console.log(res.data);
+        setFollower(res.data.Follower);
+        setFollower(res.data.Following);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   const getProfile = async () => {
     try {

@@ -16,16 +16,21 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import './src/api/global'
+import './src/api/global';
+import {Provider} from 'react-redux';
+import configureStore from './src/store';
 
 import {NavigationContainer} from '@react-navigation/native';
 import RootNavigation from './src/components/RootNavigation';
 
+const store = configureStore();
 export default function App() {
   return (
-    <NavigationContainer>
-      <RootNavigation />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootNavigation />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

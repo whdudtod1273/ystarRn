@@ -1,4 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {login, logout} from '../../redusers/auth';
 import {
   Image,
   SafeAreaView,
@@ -14,6 +16,9 @@ import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login() {
+  const store = useSelector((state) => state, shallowEqual);
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const [user, setUser] = useState({
     email: 'test1@test.com',
@@ -33,8 +38,10 @@ function Login() {
           password,
         })
         .then((res) => {
+          let auth = res.data;
           console.log(res);
           if (res.status === 200) {
+            dispatch(login(auth));
             navigation.navigate('main');
           } else if (res.status === 304) {
             navigation.navigate('main');
