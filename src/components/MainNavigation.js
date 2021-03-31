@@ -67,6 +67,7 @@ function MainNavigation() {
   const temporary = () => {
     return <Pressable></Pressable>;
   };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Tab.Navigator

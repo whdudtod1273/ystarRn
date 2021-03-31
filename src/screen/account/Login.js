@@ -38,10 +38,8 @@ function Login() {
           password,
         })
         .then((res) => {
-          let auth = res.data;
           console.log(res);
           if (res.status === 200) {
-            dispatch(login(auth));
             navigation.navigate('main');
           } else if (res.status === 304) {
             navigation.navigate('main');
@@ -52,6 +50,7 @@ function Login() {
         });
 
       const response = await $http.get('/api/account');
+      dispatch(login(response.data));
       AsyncStorage.setItem('email', response.data.email);
       AsyncStorage.setItem('username', response.data.username);
       AsyncStorage.setItem('phone', response.data.phone);

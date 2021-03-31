@@ -1,13 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import HomeSvg from '../assets/svg/home.svg';
-import HomeSelectSvg from '../assets/svg/homeSelect.svg';
-import HeartSvg from '../assets/svg/heart.svg';
-import HeartSelectSvg from '../assets/svg/heartSelect.svg';
-import PhotoSvg from '../assets/svg/photo.svg';
-import PhotoSelectSvg from '../assets/svg/photoSelect.svg';
-import ProfileSvg from '../assets/svg/profile.svg';
-import SearchSvg from '../assets/svg/search.svg';
-import SearchSelectSvg from '../assets/svg/searchSelect.svg';
+
 import {
   Image,
   SafeAreaView,
@@ -23,11 +15,13 @@ import {
   useNavigation,
   CommonActions,
 } from '@react-navigation/native';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Join from '../screen/account/Join';
 import Login from '../screen/account/Login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from '../screen/home/Home';
 import Search from '../screen/search/Search';
 import Photo from '../screen/photo/index';
@@ -43,6 +37,8 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function RootNavigation() {
+  const store = useSelector((state) => state, shallowEqual);
+
   const [userInfo, setUserInfo] = useState({
     email: '',
     username: '',
@@ -61,42 +57,61 @@ function RootNavigation() {
     setUserInfo({email, username});
   };
 
+  ////////////////////////////////////////////////////////////////////////////////
+  getMyStringValue = async () => {
+    try {
+      await AsyncStorage.getItem('email').then((val) => {
+        console.log(val);
+      });
+      await AsyncStorage.getItem('username').then((val) => {
+        console.log(val);
+      });
+    } catch (e) {
+      // read error
+    }
+    console.log('Done.');
+  };
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem('email');
+      await AsyncStorage.removeItem('username');
+    } catch (e) {
+      // remove error
+    }
+    console.log('Done.');
+  };
+  ////////////////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
+    // getMyStringValue();
+    // removeValue();
     getItem();
+    console.log(store.auth);
   }, []);
 
   return (
-    <>
-      {userInfo.email === '' ? (
-        <SafeAreaView style={{flex: 1}}>
-          <Stack.Navigator>
-            <Stack.Screen name="로그인" component={Login} />
-            <Stack.Screen name="회원가입" component={Join} />
-          </Stack.Navigator>
-        </SafeAreaView>
+    <Stack.Navigator>
+      {store.auth === null ? (
+        <>
+          <Stack.Screen name="로그인" component={Login} />
+          <Stack.Screen name="회원가입" component={Join} />
+        </>
       ) : (
-        <SafeAreaView style={{flex: 1}}>
-          <Stack.Navigator mode="modal">
-            <Stack.Screen name="로그인" component={Login} />
-            <Stack.Screen name="회원가입" component={Join} />
-            <Stack.Screen name="main" component={MainNavigation} />
-            <Stack.Screen name="photo" component={Photo} />
-            <Stack.Screen
-              name="filter"
-              // options={{
-              //   headerRight: ({}) => <HeaderRight test={test} />,
-              // }}
-              // options={({navigation, route}) => ({
-              //   headerRight: ({}) => <HeaderRight />,
-              // })}
-              component={Filter}
-            />
-            <Stack.Screen name="Write" component={Write} />
-            <Stack.Screen name="follow" component={Follow} />
-          </Stack.Navigator>
-        </SafeAreaView>
+        <>
+          <Stack.Screen
+            name="main"
+            component={MainNavigation}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="photo" component={Photo} />
+          <Stack.Screen name="filter" component={Filter} />
+          <Stack.Screen name="Write" component={Write} />
+          <Stack.Screen name="follow" component={Follow} />
+          <Stack.Screen name="로그인" component={Login} />
+          <Stack.Screen name="회원가입" component={Join} />
+        </>
       )}
-    </>
+    </Stack.Navigator>
   );
 }
 const styles = StyleSheet.create({});

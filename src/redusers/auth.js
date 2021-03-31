@@ -4,7 +4,7 @@ const LOGOUT = 'LOGOUT';
 
 // Action Creators
 export const login = (value) => ({type: LOGIN, payload: value});
-export const logout = (value) => ({type: LOGOUT, payload: value});
+export const logout = () => ({type: LOGOUT, payload: null});
 
 const auth = {};
 export default (state = auth, action) => {
