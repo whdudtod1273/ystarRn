@@ -90,28 +90,30 @@ function RootNavigation() {
   }, []);
 
   return (
-    <Stack.Navigator>
-      {store.auth === null ? (
-        <>
-          <Stack.Screen name="로그인" component={Login} />
-          <Stack.Screen name="회원가입" component={Join} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen
-            name="main"
-            component={MainNavigation}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name="photo" component={Photo} />
-          <Stack.Screen name="filter" component={Filter} />
-          <Stack.Screen name="Write" component={Write} />
-          <Stack.Screen name="follow" component={Follow} />
-          <Stack.Screen name="로그인" component={Login} />
-          <Stack.Screen name="회원가입" component={Join} />
-        </>
-      )}
-    </Stack.Navigator>
+    <SafeAreaView style={{flex: 1}}>
+      <Stack.Navigator>
+        {store.auth === null ? (
+          <>
+            <Stack.Screen name="로그인" component={Login} />
+            <Stack.Screen name="회원가입" component={Join} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="main"
+              component={MainNavigation}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen name="photo" component={Photo} />
+            <Stack.Screen name="filter" component={Filter} />
+            <Stack.Screen name="Write" component={Write} />
+            <Stack.Screen name="follow" component={Follow} />
+            <Stack.Screen name="로그인" component={Login} />
+            <Stack.Screen name="회원가입" component={Join} />
+          </>
+        )}
+      </Stack.Navigator>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({});

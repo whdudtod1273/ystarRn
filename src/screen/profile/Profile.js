@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-// import CameraRoll from '@react-native-community/cameraroll';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {
   Image,
@@ -14,8 +14,11 @@ import {
   ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import PhotoSvg from '../../assets/svg/photo.svg';
+import MenuSvg from '../../assets/svg/menu.svg';
 
 function Profile() {
+  const store = useSelector((state) => state, shallowEqual);
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
@@ -23,13 +26,13 @@ function Profile() {
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
   useEffect(() => {
-    $http.get('/api/account/mypage/1').then((res) => {
+    $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
       setProfileData(res.data);
     });
   }, [photo]);
 
   useEffect(() => {
-    $http.get(`/api/account/mypage/1`).then((res) => {
+    $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
       console.log(res);
       setProfileData(res.data);
       const url = res.data.Profile.url.split('/');
@@ -102,6 +105,27 @@ function Profile() {
   return profileData ? (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, width: '100%', height: '100%'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
+            height: 50,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+              {store?.auth?.username}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Pressable style={{alignItems: 'center'}}>
+              <PhotoSvg width={25} height={25} />
+            </Pressable>
+            <Pressable style={{alignItems: 'center', marginLeft: 20}}>
+              <MenuSvg width={25} height={25} />
+            </Pressable>
+          </View>
+        </View>
         <View style={[styles.conBox1]}>
           <View style={{flexDirection: 'row'}}>
             <Pressable
