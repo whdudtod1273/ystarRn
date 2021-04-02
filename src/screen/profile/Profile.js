@@ -7,13 +7,13 @@ import {
   Text,
   TextInput,
   View,
-  Modal,
   StyleSheet,
   Pressable,
   Alert,
   ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Modal from 'react-native-modal';
 import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
 
@@ -25,12 +25,7 @@ function Profile() {
   const [profilePhoto, setProfilePhoto] = useState();
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
-  useEffect(() => {
-    $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
-      setProfileData(res.data);
-    });
-  }, [photo]);
-
+  const [isVisibleState, setIsVisible] = useState(false);
   useEffect(() => {
     $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
       console.log(res);
@@ -49,6 +44,12 @@ function Profile() {
         console.log(error);
       });
   }, []);
+  useEffect(() => {
+    $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
+      setProfileData(res.data);
+    });
+  }, [photo]);
+
   const getProfile = async () => {
     try {
       const options = {
@@ -105,6 +106,16 @@ function Profile() {
   return profileData ? (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, width: '100%', height: '100%'}}>
+        {/******************************* modal ********************************/}
+        <Modal
+          isVisible={isVisibleState}
+          hasBackdrop={true}
+          animationType="slide">
+          <View style={{flex: 1}}>
+            <Text>I am the modal content!</Text>
+          </View>
+        </Modal>
+        {/******************************* modal ********************************/}
         <View
           style={{
             flexDirection: 'row',
@@ -121,7 +132,11 @@ function Profile() {
             <Pressable style={{alignItems: 'center'}}>
               <PhotoSvg width={25} height={25} />
             </Pressable>
-            <Pressable style={{alignItems: 'center', marginLeft: 20}}>
+            <Pressable
+              style={{alignItems: 'center', marginLeft: 20}}
+              onPress={() => {
+                setIsVisible((prev) => !prev);
+              }}>
               <MenuSvg width={25} height={25} />
             </Pressable>
           </View>
