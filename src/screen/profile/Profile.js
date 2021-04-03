@@ -16,9 +16,11 @@ import {useNavigation} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
+import {logout} from '../../redusers/auth';
 
 function Profile() {
   const store = useSelector((state) => state, shallowEqual);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
@@ -26,6 +28,7 @@ function Profile() {
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isVisibleState, setIsVisible] = useState(false);
+
   useEffect(() => {
     $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
       console.log(res);
@@ -99,7 +102,10 @@ function Profile() {
         console.log(err);
       });
   };
-
+  const logOut = () => {
+    dispatch(logout());
+    Alert.alert('로그아웃이 완료되었습니다.', '');
+  };
   const getFollowing = () => {};
   const getFollower = () => {};
 
@@ -109,10 +115,27 @@ function Profile() {
         {/******************************* modal ********************************/}
         <Modal
           isVisible={isVisibleState}
-          hasBackdrop={true}
-          animationType="slide">
-          <View style={{flex: 1}}>
-            <Text>I am the modal content!</Text>
+          // onBackdropPress={() => {
+          //   setIsVisible(false);
+          // }}
+          style={{justifyContent: 'flex-end'}}
+          swipeDirection={['down']}
+          onSwipeComplete={() => {
+            setIsVisible(false);
+          }}
+          // swipeDirection={['up', 'left', 'right', 'down']}
+        >
+          <View
+            style={{
+              backgroundColor: '#fff',
+              height: 500,
+            }}>
+            <Pressable
+              onPress={() => {
+                logOut();
+              }}>
+              <Text>로그아웃</Text>
+            </Pressable>
           </View>
         </Modal>
         {/******************************* modal ********************************/}

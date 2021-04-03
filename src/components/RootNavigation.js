@@ -94,7 +94,13 @@ function RootNavigation() {
       <Stack.Navigator>
         {store.auth === null ? (
           <>
-            <Stack.Screen name="로그인" component={Login} />
+            <Stack.Screen
+              name="로그인"
+              component={Login}
+              options={{
+                animationTypeForReplace: store.auth == null ? 'pop' : 'push',
+              }}
+            />
             <Stack.Screen name="회원가입" component={Join} />
           </>
         ) : (
@@ -108,7 +114,7 @@ function RootNavigation() {
             <Stack.Screen name="filter" component={Filter} />
             <Stack.Screen name="Write" component={Write} />
             <Stack.Screen name="follow" component={Follow} />
-            <Stack.Screen name="로그인" component={Login} />
+            <Stack.Screen name="로그인2" component={Login} />
             <Stack.Screen name="회원가입" component={Join} />
           </>
         )}

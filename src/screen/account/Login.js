@@ -13,7 +13,6 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login() {
   const store = useSelector((state) => state, shallowEqual);
@@ -40,20 +39,17 @@ function Login() {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
-            navigation.navigate('main');
+            // navigation.navigate('main');
+            console.log('login');
           } else if (res.status === 304) {
-            navigation.navigate('main');
           }
         })
         .catch((e) => {
           console.log(e);
         });
-
-      const response = await $http.get('/api/account');
-      dispatch(login(response.data));
-      AsyncStorage.setItem('email', response.data.email);
-      AsyncStorage.setItem('username', response.data.username);
-      AsyncStorage.setItem('phone', response.data.phone);
+      await $http.get('/api/account').then((res) => {
+        dispatch(login(res.data));
+      });
     }
   };
 
