@@ -18,7 +18,7 @@ function Home() {
     <SafeAreaView style={{flex: 1}}>
       <Pressable
         onPress={() => {
-          navigation.navigate('로그인');
+          navigation.navigate('로그인2');
         }}>
         <Text>로그인</Text>
       </Pressable>

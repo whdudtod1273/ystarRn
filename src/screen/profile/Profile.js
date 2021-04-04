@@ -11,8 +11,9 @@ import {
   Pressable,
   Alert,
   ScrollView,
+  DeviceEventEmitter,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
@@ -24,34 +25,66 @@ function Profile() {
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState();
   const [photo, setPhoto] = useState();
-  const [profilePhoto, setProfilePhoto] = useState();
+  const [profilePhoto, setProfilePhoto] = useState('');
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isVisibleState, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
-      console.log(res);
-      setProfileData(res.data);
-      const url = res.data.Profile.url.split('/');
-      setProfilePhoto(`/api/image/${url[url.length - 1]}`);
-    });
-    $http
-      .get('/api/account/follow/1')
-      .then((res) => {
-        console.log(res.data);
-        setFollower(res.data.Follower);
-        setFollower(res.data.Following);
-      })
-      .catch((error) => {
-        console.log(error);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (profileData === undefined) {
+        $http
+          .get(`/api/account/mypage/${store?.auth?.id}`)
+          .then((res) => {
+            setProfileData(res.data);
+            const url = res.data.Profile.url.split('/');
+            setProfilePhoto(`/api/image/${url[url.length - 1]}`);
+          })
+          .catch((error) => {
+            console.log('account/mypage/:id', error);
+          });
+
+        $http
+          .get(`/api/account/follow/${store?.auth?.id}`)
+          .then((res) => {
+            setFollower(res.data.Follower);
+            setFollower(res.data.Following);
+          })
+          .catch((error) => {
+            console.log('account/follow:id', error);
+          });
+      }
+      return () => {};
+    }, []),
+  );
+
+  const profileAdd = async (ee) => {
+    try {
+      const formData = new FormData();
+      formData.append('url', {
+        uri: ee,
+        type: 'image/jpg',
+        name: 'da',
       });
-  }, []);
-  useEffect(() => {
-    $http.get(`/api/account/mypage/${store?.auth?.id}`).then((res) => {
-      setProfileData(res.data);
-    });
-  }, [photo]);
+
+      const response = await $http.post('/api/photo', formData, {
+        headers: {'content-type': 'multipart/form-data'},
+      });
+
+      const response2 = await $http.put(`/api/account/mypage`, {
+        userId: store?.auth?.id,
+        intro: 'a',
+        photo: response.data.id,
+      });
+
+      if (response2.status === 200) {
+        const url = await response.data.url.split('/');
+        setProfilePhoto(`/api/image/${url[url.length - 1]}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getProfile = async () => {
     try {
@@ -70,38 +103,7 @@ function Profile() {
       console.log('getPhoto', error);
     }
   };
-  const profileAdd = async (ee) => {
-    const formData = new FormData();
 
-    formData.append('url', {
-      uri: ee,
-      type: 'image/jpg',
-      name: 'da',
-    });
-    await $http
-      .post('/api/photo/', formData, {
-        headers: {'content-type': 'multipart/form-data'},
-      })
-      .then((res) => {
-        $http
-          .put(`/api/account/mypage`, {
-            userId: 1,
-            intro: 'a',
-            photo: res.data.id,
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.status === 200) {
-              const url = res.data.Profile.url.split('/');
-              setProfilePhoto(`/api/image/${url[url.length - 1]}`);
-              console.log('수정 완료');
-            }
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const logOut = () => {
     dispatch(logout());
     Alert.alert('로그아웃이 완료되었습니다.', '');
