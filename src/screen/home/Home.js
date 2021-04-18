@@ -1,4 +1,5 @@
 import React from 'react';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
   Image,
   SafeAreaView,
@@ -11,23 +12,25 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import HomeSvg from '../../assets/svg/heart.svg';
+import SvgBox from '../../api/ImageBox';
+import {logout} from '../../redusers/auth';
 function Home() {
   const navigation = useNavigation();
+  const store = useSelector((state) => state, shallowEqual);
+  const dispatch = useDispatch();
   return (
     <SafeAreaView style={{flex: 1}}>
       <Pressable
         onPress={() => {
-          navigation.navigate('로그인2');
+          dispatch(logout());
         }}>
-        <Text>로그인</Text>
+        <Text>로그아웃</Text>
       </Pressable>
-      <Pressable
-        onPress={() => {
-          navigation.navigate('회원가입');
-        }}>
-        <Text>회원가입</Text>
-      </Pressable>
+      <SvgBox type={'HomeSvg'} width={20} height={20} />
+      <SvgBox type={'HomeSelectSvg'} width={20} height={20} />
+      <SvgBox type={'HeartSvg'} width={20} height={20} />
+      <SvgBox type={'HeartSelectSvg'} width={20} height={20} />
+      <SvgBox type={'PhotoSvg'} width={20} height={20} />
     </SafeAreaView>
   );
 }

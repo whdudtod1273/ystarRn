@@ -20,8 +20,8 @@ function Login() {
 
   const navigation = useNavigation();
   const [user, setUser] = useState({
-    email: 'test1@test.com',
-    password: 'qwer1234!',
+    email: 'test@test.com',
+    password: '1234',
   });
   const {email, password} = user;
   useEffect(() => {}, []);

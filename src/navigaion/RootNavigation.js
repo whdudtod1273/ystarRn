@@ -24,13 +24,13 @@ import Join from '../screen/account/Join';
 import Login from '../screen/account/Login';
 import Home from '../screen/home/Home';
 import Search from '../screen/search/Search';
-import Photo from '../screen/photo/index';
+import Photo from './photoNavigation';
 import Activity from '../screen/activity/Activity';
 import Profile from '../screen/profile/Profile';
 import MainNavigation from './MainNavigation';
 import Test from '../screen/test';
-import Filter from '../screen/photo/upload/Filter';
-import Write from '../screen/photo/upload/Write';
+import Filter from '../screen/upload/Filter';
+import Write from '../screen/upload/Write';
 import Follow from '../screen/profile/follow/Follow';
 
 const Stack = createStackNavigator();

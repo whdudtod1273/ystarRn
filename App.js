@@ -22,7 +22,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import configureStore from './src/store';
 
 import {NavigationContainer} from '@react-navigation/native';
-import RootNavigation from './src/components/RootNavigation';
+import RootNavigation from './src/navigaion/RootNavigation';
 
 const {store, persistor} = configureStore();
 export default function App() {
