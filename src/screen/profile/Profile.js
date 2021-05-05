@@ -18,12 +18,14 @@ import Modal from 'react-native-modal';
 import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
 import {logout} from '../../reducers/auth';
+import FeedList from '../../components/FeedList';
 
 function Profile() {
   const store = useSelector((state) => state, shallowEqual);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState();
+  const [myBoardList, setMyBoardList] = useState();
   const [photo, setPhoto] = useState();
   const [profilePhoto, setProfilePhoto] = useState('');
   const [follower, setFollower] = useState([]);
@@ -37,6 +39,7 @@ function Profile() {
           .get(`/api/account/mypage/${store?.auth?.id}`)
           .then((res) => {
             setProfileData(res.data);
+            setMyBoardList(res.data.BoardList);
             const url = res.data.Profile.url.split('/');
             setProfilePhoto(`/api/image/${url[url.length - 1]}`);
           })
@@ -57,6 +60,10 @@ function Profile() {
       return () => {};
     }, []),
   );
+
+  useEffect(() => {
+    console.log(profileData);
+  }, [profileData]);
 
   const profileAdd = async (ee) => {
     try {
@@ -212,7 +219,9 @@ function Profile() {
           </Pressable>
         </View>
         <View style={[styles.conBox2]}>
-          <ScrollView></ScrollView>
+          <ScrollView style={{flex: 1}}>
+            {myBoardList && <FeedList list={myBoardList} />}
+          </ScrollView>
         </View>
       </View>
     </SafeAreaView>
