@@ -28,7 +28,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Home from '../screen/home/Home';
 import Search from '../screen/search/Search';
-import Photo from './photoNavigation';
 import Activity from '../screen/activity/Activity';
 import Profile from '../screen/profile/Profile';
 const Tab = createBottomTabNavigator();

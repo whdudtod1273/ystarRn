@@ -17,7 +17,7 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
-import {logout} from '../../redusers/auth';
+import {logout} from '../../reducers/auth';
 
 function Profile() {
   const store = useSelector((state) => state, shallowEqual);

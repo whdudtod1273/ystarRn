@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SvgBox from '../../api/ImageBox';
-import {logout} from '../../redusers/auth';
+import {logout} from '../../reducers/auth';
 function Home() {
   const navigation = useNavigation();
   const store = useSelector((state) => state, shallowEqual);

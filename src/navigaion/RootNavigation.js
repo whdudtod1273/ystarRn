@@ -24,14 +24,14 @@ import Join from '../screen/account/Join';
 import Login from '../screen/account/Login';
 import Home from '../screen/home/Home';
 import Search from '../screen/search/Search';
-import Photo from './photoNavigation';
+import Photo from '../screen/upload/Photo';
 import Activity from '../screen/activity/Activity';
 import Profile from '../screen/profile/Profile';
 import MainNavigation from './MainNavigation';
 import Test from '../screen/test';
+import Follow from '../screen/profile/follow/Follow';
 import Filter from '../screen/upload/Filter';
 import Write from '../screen/upload/Write';
-import Follow from '../screen/profile/follow/Follow';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -110,9 +110,20 @@ function RootNavigation() {
               component={MainNavigation}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="photo" component={Photo} />
+            <Stack.Screen
+              name="photo"
+              component={Photo}
+              options={{
+                title: '새 게시물',
+                headerStyle: {
+                  backgroundColor: '#101010',
+                  shadowOpacity: 0,
+                },
+                headerTintColor: '#fff',
+              }}
+            />
             <Stack.Screen name="filter" component={Filter} />
-            <Stack.Screen name="Write" component={Write} />
+            <Stack.Screen name="write" component={Write} />
             <Stack.Screen name="follow" component={Follow} />
             <Stack.Screen name="로그인2" component={Login} />
             <Stack.Screen name="회원가입" component={Join} />

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {login, logout} from '../../redusers/auth';
+import {login, logout} from '../../reducers/auth';
 import {
   Image,
   SafeAreaView,
