@@ -61,10 +61,6 @@ function Profile() {
     }, []),
   );
 
-  useEffect(() => {
-    console.log(profileData);
-  }, [profileData]);
-
   const profileAdd = async (ee) => {
     try {
       const formData = new FormData();
@@ -131,9 +127,7 @@ function Profile() {
           swipeDirection={['down']}
           onSwipeComplete={() => {
             setIsVisible(false);
-          }}
-          // swipeDirection={['up', 'left', 'right', 'down']}
-        >
+          }}>
           <View
             style={{
               backgroundColor: '#fff',

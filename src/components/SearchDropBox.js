@@ -8,7 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 // import Feather from 'react-native-vector-icons/Feather';
-const SearchDropBox = ({content, tagOpen}) => {
+const SearchDropBox = ({content, tagOpen, searchItem}) => {
   const [searchTagList, setSearchTagList] = useState();
   const [searchTagBoardList, setSearchTagBoardList] = useState();
 
@@ -35,6 +35,7 @@ const SearchDropBox = ({content, tagOpen}) => {
             },
           });
           console.log(response);
+          console.log(arr);
           const responseBoard = await $http.get('/api/board/explore', {
             params: {
               name: arr[arr?.length - 1],
@@ -76,6 +77,7 @@ const SearchDropBox = ({content, tagOpen}) => {
               key={index}
               onPress={() => {
                 tagOpen(false);
+                searchItem(item);
               }}>
               <View style={[styles.hashBox]}>
                 {/* <Feather name="hash" size={25} /> */}

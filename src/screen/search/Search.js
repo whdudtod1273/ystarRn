@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {
   View,
   Text,
@@ -8,13 +9,48 @@ import {
   StyleSheet,
   Dimensions,
   Keyboard,
+  ScrollView,
 } from 'react-native';
+import FeedList from '../../components/FeedList';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchDropBox from '../../components/SearchDropBox';
 const Search = () => {
   const [content, setContent] = useState();
   const [tagListOpen, setTagListOpen] = useState(false);
+  const [searchItem, setSearchItem] = useState();
   const searchDropBoxHeight = Dimensions.get('window').height - 60;
+  const [boardList, setBoardList] = useState();
+  const [searchTagList, setSearchTagList] = useState();
+  useFocusEffect(
+    React.useCallback(() => {
+      $http.get('/api/board').then((res) => {
+        setBoardList(res.data);
+      });
+      return () => {};
+    }, []),
+  );
+
+  useEffect(() => {
+    if (searchItem !== '' || searchItem !== null || searchItem !== undefined) {
+      $http
+        .get('/api/board/explore', {
+          params: {
+            name: searchItem?.name?.substr(1, searchItem?.name?.length - 1),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setBoardList(res.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [searchItem]);
+
+  useEffect(() => {}, [tagListOpen]);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Pressable onPress={Keyboard.dismiss}>
@@ -27,11 +63,13 @@ const Search = () => {
               value={content}
               onChangeText={(val) => {
                 setContent(val);
-                console.log(val);
               }}
             />
           </View>
         </View>
+        <ScrollView>
+          <FeedList list={boardList} />
+        </ScrollView>
         <View
           style={{
             width: '100%',
@@ -40,7 +78,12 @@ const Search = () => {
             top: 50,
             left: 0,
           }}>
-          <SearchDropBox content={content} tagOpen={setTagListOpen} />
+          <SearchDropBox
+            content={content}
+            tagOpen={setTagListOpen}
+            searchItem={setSearchItem}
+            searchTagList={setSearchTagList}
+          />
         </View>
       </Pressable>
     </SafeAreaView>

@@ -14,7 +14,6 @@ const FeedList = ({list}) => {
     <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
       {list?.map((item, index) => {
         const url = item.Photo.url.split('/');
-        console.log(url);
         return (
           <Pressable
             key={index}
