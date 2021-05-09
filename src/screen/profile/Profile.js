@@ -18,7 +18,7 @@ import Modal from 'react-native-modal';
 import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
 import {logout} from '../../reducers/auth';
-import FeedList from '../../components/FeedList';
+import FeedList from '../../components/FeedGridList';
 
 function Profile() {
   const store = useSelector((state) => state, shallowEqual);

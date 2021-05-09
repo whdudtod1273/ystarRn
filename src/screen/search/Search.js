@@ -11,7 +11,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import FeedList from '../../components/FeedList';
+import FeedList from '../../components/FeedGridList';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchDropBox from '../../components/SearchDropBox';
 const Search = () => {
