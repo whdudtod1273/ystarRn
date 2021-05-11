@@ -34,8 +34,7 @@ const SearchDropBox = ({content, tagOpen, searchItem}) => {
               name: arr[arr?.length - 1],
             },
           });
-          console.log(response);
-          console.log(arr);
+
           const responseBoard = await $http.get('/api/board/explore', {
             params: {
               name: arr[arr?.length - 1],

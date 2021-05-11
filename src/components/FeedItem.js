@@ -3,7 +3,8 @@ import {View, Text} from 'react-native';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 
-const FeedItem = () => {
+const FeedItem = ({item}) => {
+  [item, setItem] = useState(item);
   const store = useSelector((state) => state, shallowEqual);
 
   return (
