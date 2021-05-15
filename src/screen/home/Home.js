@@ -12,11 +12,10 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-
 import {logout} from '../../reducers/auth';
 import FeedList from '../../components/FeedList';
-import SvgBox from '../../components/SvgBox';
 import {$http} from '../../api/fetcher';
+
 function Home() {
   const navigation = useNavigation();
   const store = useSelector((state) => state, shallowEqual);
@@ -25,9 +24,18 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       $http.get('/api/board').then((res) => {
-        setBoardList(res.data);
+        const data = res.data.map((item) => {
+          item.likeState = false;
+          item.like.find((val) => {
+            if (val.user_id === store.auth.id) {
+              item.likeState = true;
+            }
+          });
+          return item;
+        });
+        setBoardList(data);
       });
-    }, []),
+    }, [store.auth.id]),
   );
 
   return (

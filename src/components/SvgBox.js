@@ -30,6 +30,12 @@ function SvgBox({type, width, height}) {
   const More = register({
     loader: () => import('../assets/svg/more.svg'),
   });
+  const Message = register({
+    loader: () => import('../assets/svg/message.svg'),
+  });
+  const PaperPlane = register({
+    loader: () => import('../assets/svg/paperPlane.svg'),
+  });
   return (
     <>
       {type === 'HomeSvg' ? <HomeSvg width={width} height={height} /> : null}
@@ -54,6 +60,10 @@ function SvgBox({type, width, height}) {
         <SearchSelectSvg width={width} height={height} />
       ) : null}
       {type === 'More' ? <More width={width} height={height} /> : null}
+      {type === 'Message' ? <Message width={width} height={height} /> : null}
+      {type === 'PaperPlane' ? (
+        <PaperPlane width={width} height={height} />
+      ) : null}
     </>
   );
 }
