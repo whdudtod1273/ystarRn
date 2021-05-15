@@ -1,23 +1,17 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   Image,
-  SafeAreaView,
   Text,
   TextInput,
   View,
-  Modal,
   StyleSheet,
   Pressable,
-  Alert,
-  Button,
-  Keyboard,
-  ScrollView,
   Dimensions,
-  TouchableOpacity,
 } from 'react-native';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import SearchDropBox from '../../components/SearchDropBox';
+import {$http} from '../../api/fetcher';
 
 const HeaderRight = ({content, filterUri, mainPhoto, tags}) => {
   const navigation = useNavigation();
@@ -117,7 +111,7 @@ function Write({route}) {
         />
       ),
     });
-  }, [content, filterUri, tags]);
+  }, [content, filterUri, mainPhoto, navigation, tags]);
 
   const changeText = (val) => {
     setContent(val);

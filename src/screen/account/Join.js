@@ -1,17 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-  Modal,
-  StyleSheet,
-  Pressable,
-  Alert,
-} from 'react-native';
+import {Image, SafeAreaView, Text, TextInput, View, Modal, StyleSheet, Pressable, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {$http} from '../../api/fetcher';
 function Join(props) {
   const navigation = useNavigation();
   const [user, setUser] = useState({
@@ -39,9 +30,7 @@ function Join(props) {
     } else if (password === '') {
       Alert.alert('비밀번호를 입력해주세요');
     } else if (regExpPw.test(password) == false) {
-      Alert.alert(
-        '비밀번호는 최소 8자리에 숫자, 문자, 특수문자가 각 1개 이상 포함되어야 합니다.',
-      );
+      Alert.alert('비밀번호는 최소 8자리에 숫자, 문자, 특수문자가 각 1개 이상 포함되어야 합니다.');
     } else if (rePassword === '') {
       Alert.alert('비밀번호 확인을 입력해주세요');
     } else if (password != rePassword) {
@@ -130,9 +119,7 @@ function Join(props) {
             onPress={() => {
               CreateUser();
             }}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: '700'}}>
-              회원가입
-            </Text>
+            <Text style={{color: '#fff', fontSize: 20, fontWeight: '700'}}>회원가입</Text>
           </Pressable>
         </View>
       </View>

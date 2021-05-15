@@ -12,9 +12,11 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import SvgBox from '../../api/ImageBox';
+
 import {logout} from '../../reducers/auth';
 import FeedList from '../../components/FeedList';
+import SvgBox from '../../components/SvgBox';
+import {$http} from '../../api/fetcher';
 function Home() {
   const navigation = useNavigation();
   const store = useSelector((state) => state, shallowEqual);
@@ -29,18 +31,13 @@ function Home() {
   );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <Pressable
         onPress={() => {
-          dispatch(logout());
+          dispatch(logout(null));
         }}>
         <Text>로그아웃</Text>
       </Pressable>
-      {/* <SvgBox type={'HomeSvg'} width={20} height={20} />
-      <SvgBox type={'HomeSelectSvg'} width={20} height={20} />
-      <SvgBox type={'HeartSvg'} width={20} height={20} />
-      <SvgBox type={'HeartSelectSvg'} width={20} height={20} />
-      <SvgBox type={'PhotoSvg'} width={20} height={20} /> */}
       <FeedList boardList={boardList} />
     </SafeAreaView>
   );

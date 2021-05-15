@@ -109,7 +109,7 @@ function Filter({route}) {
         <HeaderRight filterUri={filterUri} mainPhoto={mainPhoto} />
       ),
     });
-  }, [filterUri]);
+  }, [filterUri, mainPhoto, navigation]);
 
   const renderItem = (Filters) => {
     return (

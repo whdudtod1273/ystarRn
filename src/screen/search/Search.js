@@ -1,19 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {
-  View,
-  Text,
-  Pressable,
-  SafeAreaView,
-  TextInput,
-  StyleSheet,
-  Dimensions,
-  Keyboard,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Pressable, SafeAreaView, TextInput, StyleSheet, Dimensions, Keyboard, ScrollView} from 'react-native';
 import FeedList from '../../components/FeedGridList';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchDropBox from '../../components/SearchDropBox';
+import {$http} from '../../api/fetcher';
 const Search = () => {
   const [content, setContent] = useState();
   const [tagListOpen, setTagListOpen] = useState(false);
@@ -78,12 +69,7 @@ const Search = () => {
             top: 50,
             left: 0,
           }}>
-          <SearchDropBox
-            content={content}
-            tagOpen={setTagListOpen}
-            searchItem={setSearchItem}
-            searchTagList={setSearchTagList}
-          />
+          <SearchDropBox content={content} tagOpen={setTagListOpen} searchItem={setSearchItem} searchTagList={setSearchTagList} />
         </View>
       </Pressable>
     </SafeAreaView>

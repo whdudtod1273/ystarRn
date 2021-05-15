@@ -3,11 +3,10 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import FeedItem from './FeedItem';
 
 const FeedList = ({boardList}) => {
-  const [items, setItems] = useState(boardList);
   return (
     <View style={{flex: 1}}>
       <ScrollView>
-        {items?.map((item, index) => {
+        {boardList?.map((item, index) => {
           return <FeedItem key={index} item={item} />;
         })}
       </ScrollView>

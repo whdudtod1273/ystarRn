@@ -19,6 +19,7 @@ import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
 import {logout} from '../../reducers/auth';
 import FeedList from '../../components/FeedGridList';
+import {$http, $baseUrl} from '../../api/fetcher';
 
 function Profile() {
   const store = useSelector((state) => state, shallowEqual);
@@ -36,7 +37,7 @@ function Profile() {
     React.useCallback(() => {
       if (profileData === undefined) {
         $http
-          .get(`/api/account/mypage/${store?.auth?.id}`)
+          .get(`/api/account/mypage/${store.auth?.id}`)
           .then((res) => {
             setProfileData(res.data);
             setMyBoardList(res.data.BoardList);
@@ -48,7 +49,7 @@ function Profile() {
           });
 
         $http
-          .get(`/api/account/follow/${store?.auth?.id}`)
+          .get(`/api/account/follow/${store.auth?.id}`)
           .then((res) => {
             setFollower(res.data.Follower);
             setFollower(res.data.Following);
@@ -58,7 +59,7 @@ function Profile() {
           });
       }
       return () => {};
-    }, []),
+    }, [profileData, store.auth?.id]),
   );
 
   const profileAdd = async (ee) => {
@@ -75,7 +76,7 @@ function Profile() {
       });
 
       const response2 = await $http.put(`/api/account/mypage`, {
-        userId: store?.auth?.id,
+        userId: store.auth?.id,
         intro: 'a',
         photo: response.data.id,
       });
