@@ -24,6 +24,9 @@ const FeedItem = ({item}) => {
   const [likeState, setLikeState] = useState(item.likeState);
   const store = useSelector((state) => state, shallowEqual);
   useEffect(() => {
+    console.log(item);
+  }, [item]);
+  useEffect(() => {
     $http
       .get(`/api/account/mypage/${item.id}`)
       .then((res) => {
@@ -49,7 +52,7 @@ const FeedItem = ({item}) => {
           board_id: item.id,
         },
       });
-
+      console.log(response);
       if (response.status === 200) {
         setLikeState((prev) => !prev);
       }
@@ -68,7 +71,7 @@ const FeedItem = ({item}) => {
           }}>
           <Image
             source={{uri: $baseUrl + profilePhoto}}
-            style={[styles.profileImg]}
+            style={[styles.profileImg, {marginRight: 10}]}
             resizeMode="cover"
           />
           <Text>{item.User.username}</Text>
@@ -81,17 +84,24 @@ const FeedItem = ({item}) => {
         resizeMode="cover"
       />
       <View style={[styles.itemLine1]}>
-        <View style={{flexDirection: 'row'}}>
-          <Pressable onPress={likePress}>
-            {likeState ? (
-              <HeartFull width={20} height={20} style={{marginRight: 10}} />
-            ) : (
-              <Heart width={20} height={20} style={{marginRight: 10}} />
-            )}
-          </Pressable>
-          <Heart width={20} height={20} style={{marginRight: 10}} />
-          <Message width={20} height={20} style={{marginRight: 10}} />
-          <PaperPlane width={20} height={20} />
+        <Pressable onPress={likePress}>
+          {likeState ? (
+            <HeartFull width={20} height={20} style={{marginRight: 10}} />
+          ) : (
+            <Heart width={20} height={20} style={{marginRight: 10}} />
+          )}
+        </Pressable>
+        <Message width={20} height={20} style={{marginRight: 10}} />
+        <PaperPlane width={20} height={20} />
+      </View>
+      <View style={[styles.itemLine2]}>
+        <View style={[styles.like]}>
+          <Text>좋아요 {item.like.length}개</Text>
+        </View>
+        <View style={[styles.comment]}>
+          <Text>
+            {item.User.username} {item.description}
+          </Text>
         </View>
       </View>
     </View>
@@ -115,7 +125,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dedede',
   },
-  itemLine1: {flexDirection: 'row', paddingVertical: 10, paddingHorizontal: 10},
+  itemLine1: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+  itemLine2: {paddingHorizontal: 10},
+  comment: {},
 });
 
 export default FeedItem;
