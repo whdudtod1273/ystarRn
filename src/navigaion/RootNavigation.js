@@ -32,6 +32,7 @@ import Test from '../screen/test';
 import Follow from '../screen/profile/follow/Follow';
 import Filter from '../screen/upload/Filter';
 import Write from '../screen/upload/Write';
+import Comment from '../screen/comment/Comment';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,37 +58,10 @@ function RootNavigation() {
     setUserInfo({email, username});
   };
 
-  ////////////////////////////////////////////////////////////////////////////////
-  getMyStringValue = async () => {
-    try {
-      await AsyncStorage.getItem('email').then((val) => {
-        console.log(val);
-      });
-      await AsyncStorage.getItem('username').then((val) => {
-        console.log(val);
-      });
-    } catch (e) {
-      // read error
-    }
-    console.log('Done.');
-  };
-  const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem('email');
-      await AsyncStorage.removeItem('username');
-    } catch (e) {
-      // remove error
-    }
-    console.log('Done.');
-  };
-  ////////////////////////////////////////////////////////////////////////////////
-
   useEffect(() => {
-    // getMyStringValue();
-    // removeValue();
     getItem();
     console.log(store.auth);
-  }, []);
+  }, [store.auth]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -125,6 +99,13 @@ function RootNavigation() {
             <Stack.Screen name="filter" component={Filter} />
             <Stack.Screen name="write" component={Write} />
             <Stack.Screen name="follow" component={Follow} />
+            <Stack.Screen
+              options={{
+                title: '댓글',
+              }}
+              name="comment"
+              component={Comment}
+            />
             <Stack.Screen name="로그인2" component={Login} />
             <Stack.Screen name="회원가입" component={Join} />
           </>

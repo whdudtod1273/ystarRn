@@ -1,7 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {login, logout} from '../../reducers/auth';
-import {Image, SafeAreaView, Text, TextInput, View, Modal, StyleSheet, Pressable, Alert} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
+  Modal,
+  StyleSheet,
+  Pressable,
+  Alert,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {$http} from '../../api/fetcher';
 
@@ -76,7 +86,9 @@ function Login() {
             onPress={() => {
               Login();
             }}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: '700'}}>로그인</Text>
+            <Text style={{color: '#fff', fontSize: 20, fontWeight: '700'}}>
+              로그인
+            </Text>
           </Pressable>
         </View>
         <View

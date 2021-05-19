@@ -18,11 +18,12 @@ import Message from '../assets/svg/message.svg';
 import PaperPlane from '../assets/svg/paperPlane.svg';
 
 const FeedItem = ({item}) => {
+  const navigation = useNavigation();
+  const store = useSelector((state) => state, shallowEqual);
   const height = Dimensions.get('window').width;
   const [profilePhoto, setProfilePhoto] = useState();
   const [boardPhoto, setBoardPhoto] = useState();
   const [likeState, setLikeState] = useState(item.likeState);
-  const store = useSelector((state) => state, shallowEqual);
   useEffect(() => {
     console.log(item);
   }, [item]);
@@ -91,7 +92,15 @@ const FeedItem = ({item}) => {
             <Heart width={20} height={20} style={{marginRight: 10}} />
           )}
         </Pressable>
-        <Message width={20} height={20} style={{marginRight: 10}} />
+        <Pressable
+          onPress={() => {
+            navigation.navigate('comment', {
+              item,
+              userId: item.id,
+            });
+          }}>
+          <Message width={20} height={20} style={{marginRight: 10}} />
+        </Pressable>
         <PaperPlane width={20} height={20} />
       </View>
       <View style={[styles.itemLine2]}>
