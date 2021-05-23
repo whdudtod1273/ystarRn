@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -14,6 +15,7 @@ import {
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {$http, $baseUrl} from '../../api/fetcher';
 import {$moment} from '../../api/moment';
+import useImgUrl from '../../hooks/useImgUrl';
 
 const Comment = ({route}) => {
   const boardItem = route.params.item;
@@ -25,15 +27,17 @@ const Comment = ({route}) => {
   const [beforeTime, setBeforeTime] = useState();
   const [buttonState, buttonOpen] = useState(false);
   const inputRef = useRef();
+  const profileUrl = useImgUrl(boardItem.Photo.url);
   useEffect(() => {
     // console.log(buttonState);
-  }, [buttonState]);
+
+    console.log(Keyboard);
+  }, [buttonState.dismiss]);
   useEffect(() => {
     $http.get(`/api/board/${userId}/comment`).then((res) => {
       setComments(res.data);
     });
-    let imgArr = boardItem.Photo.url.split('/');
-    setProfileImg(`/api/image/${imgArr[imgArr.length - 1]}`);
+    setProfileImg(profileUrl);
     const today = new Date();
 
     const nowYear = today.getFullYear();
@@ -64,7 +68,7 @@ const Comment = ({route}) => {
       const before = nowMinutes - boardMinutes;
       setBeforeTime(before + '분 전');
     }
-  }, [userId, boardItem, beforeTime]);
+  }, [userId, boardItem, beforeTime, profileUrl]);
   useEffect(() => {
     console.log(inputRef.current.focus());
   }, [inputRef]);

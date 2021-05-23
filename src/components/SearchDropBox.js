@@ -71,7 +71,7 @@ const SearchDropBox = ({content, tagOpen, searchItem}) => {
                 tagOpen(false);
                 searchItem(item);
               }}>
-              <View style={[styles.hashBox]}>{/* <Feather name="hash" size={25} /> */}</View>
+              <View style={[styles.hashBox]}></View>
               <View style={[styles.textBox]}>
                 <Text>{item.name}</Text>
                 <Text>게시물 {searchTagBoardList?.length}</Text>

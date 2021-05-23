@@ -17,7 +17,6 @@ import {$http} from '../../api/fetcher';
 const HeaderRight = ({content, filterUri, mainPhoto, tags}) => {
   const navigation = useNavigation();
   const store = useSelector((state) => state, shallowEqual);
-  const [tagList, setTagList] = useState([]);
   const photoUpload = async () => {
     let tag = [];
     for (let i = 0; i < tags.length; i++) {
