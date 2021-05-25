@@ -15,6 +15,7 @@ import {
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {$http, $baseUrl} from '../../api/fetcher';
 import {$moment} from '../../api/moment';
+import CommentItem from '../../components/CommentItem';
 import useImgUrl from '../../hooks/useImgUrl';
 
 const Comment = ({route}) => {
@@ -29,10 +30,8 @@ const Comment = ({route}) => {
   const inputRef = useRef();
   const profileUrl = useImgUrl(boardItem.Photo.url);
   useEffect(() => {
-    // console.log(buttonState);
-
-    console.log(Keyboard);
-  }, [buttonState.dismiss]);
+    boardItem;
+  }, [boardItem]);
   useEffect(() => {
     $http.get(`/api/board/${userId}/comment`).then((res) => {
       setComments(res.data);
@@ -69,19 +68,31 @@ const Comment = ({route}) => {
       setBeforeTime(before + '분 전');
     }
   }, [userId, boardItem, beforeTime, profileUrl]);
-  useEffect(() => {
-    console.log(inputRef.current.focus());
-  }, [inputRef]);
+
   const postComment = async () => {
-    await $http.post(`/api/board/${userId}/comment`, {
-      content: comment,
-      writer: store.auth.id,
-    });
+    try {
+      const response = await $http.post(`/api/board/${userId}/comment`, {
+        content: comment,
+        writer: store.auth.id,
+      });
+      if (response.status === 200) {
+        console.log(response.status);
+        $http.get(`/api/board/${userId}/comment`).then((res) => {
+          setComments(res.data);
+        });
+        setComment('');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Pressable
       onPress={Keyboard.dismiss}
+      onPressOut={() => {
+        buttonOpen(false);
+      }}
       style={{
         flex: 1,
         backgroundColor: '#fff',
@@ -111,8 +122,18 @@ const Comment = ({route}) => {
             <Text style={{marginTop: 5, color: '#999'}}>{beforeTime}</Text>
           </View>
         </View>
-        <View>
-          <ScrollView></ScrollView>
+        <View
+          style={{
+            flex: 1,
+            height: '100%',
+          }}>
+          <ScrollView>
+            <View style={{}}>
+              {comments?.map((item, index) => {
+                return <CommentItem item={item} key={index} />;
+              })}
+            </View>
+          </ScrollView>
         </View>
         <View style={[styles.inputBox]}>
           <View style={[styles.input]}>
@@ -132,8 +153,13 @@ const Comment = ({route}) => {
               style={{width: '100%', height: '100%', paddingHorizontal: 15}}
               onSubmitEditing={() => buttonOpen(false)}
             />
-            <Pressable onPress={postComment} style={[styles.button, {}]}>
-              <Text style={{color: '#999'}}>게시</Text>
+            <Pressable
+              onPress={postComment}
+              style={[
+                styles.button,
+                buttonState ? {display: 'flex'} : {display: 'none'},
+              ]}>
+              <Text style={{color: '#83C8F0'}}>게시</Text>
             </Pressable>
           </View>
         </View>
