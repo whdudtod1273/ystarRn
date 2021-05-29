@@ -16,7 +16,7 @@ function Activity() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View>
-        <Text>asdasd</Text>
+        <Text>heart</Text>
       </View>
     </SafeAreaView>
   );

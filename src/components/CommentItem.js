@@ -1,12 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {View, Text, StyleSheet, Image, Pressable, Animated} from 'react-native';
 import {$baseUrl, $http} from '../api/fetcher';
 import {$moment} from '../api/moment';
 const CommentItem = ({item}) => {
-  console.log(item);
   const [beforeTime, setBeforeTime] = useState();
   const [profileImg, setProfileImg] = useState('');
+  const [commentInX, setLocationIn] = useState(0);
+  const [commentOutX, setLocationOut] = useState(0);
+  const [deleteBtn, setDeleteBtn] = useState(0);
   useEffect(() => {
     $http
       .get(`/api/account/mypage/${item.id}`)
@@ -48,8 +50,56 @@ const CommentItem = ({item}) => {
       setBeforeTime(before + '분 전');
     }
   }, [item]);
+
+  const deleteBtnWidth = useRef(new Animated.Value(0)).current;
+  const deleteBtnText = useRef(new Animated.Value(0)).current;
+  const itemWidthUp = () => {
+    Animated.timing(deleteBtnWidth, {
+      toValue: 80,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+    Animated.timing(deleteBtnText, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  };
+  const itemWidthDown = () => {
+    Animated.timing(deleteBtnWidth, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+    Animated.timing(deleteBtnText, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const commentLocation = () => {
+    if (commentOutX < commentInX) {
+      itemWidthUp();
+    } else if (commentOutX > commentInX) {
+      itemWidthDown();
+    }
+  };
+
+  const commentDelete = () => {
+    console.log('댓글삭제');
+  };
+
   return (
-    <View style={[styles.itemBox]}>
+    <Pressable
+      style={[styles.itemBox]}
+      onPressIn={(e) => {
+        setLocationIn(e.nativeEvent.locationX);
+      }}
+      onPressOut={(e) => {
+        setLocationOut(e.nativeEvent.locationX);
+        commentLocation();
+      }}>
       <View style={[styles.imgBox]}>
         <Image
           source={{uri: $baseUrl + profileImg}}
@@ -57,26 +107,49 @@ const CommentItem = ({item}) => {
           resizeMode="cover"
         />
       </View>
-      <View>
+      <View style={{flex: 1, paddingRight: 15}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={[styles.userName]}>{item.User.username}</Text>
           <Text style={[styles.contentText]}>{item.content}</Text>
         </View>
         <Text style={{color: '#999'}}>{beforeTime}</Text>
       </View>
-    </View>
+      <Pressable onPress={commentDelete}>
+        <Animated.View
+          style={{
+            width: deleteBtnWidth,
+            height: '100%',
+            backgroundColor: '#f44336',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Animated.Text
+            style={{
+              color: '#fff',
+              fontSize: 15,
+              fontWeight: 'bold',
+              opacity: deleteBtnText,
+            }}>
+            삭제
+          </Animated.Text>
+        </Animated.View>
+      </Pressable>
+    </Pressable>
   );
 };
 const styles = StyleSheet.create({
   itemBox: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
+    // paddingVertical: 15,
+    // paddingHorizontal: 15,
     flex: 1,
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
   },
-  imgBox: {},
+  imgBox: {
+    paddingVertical: 15,
+    paddingLeft: 15,
+  },
   profileImg: {
     width: 30,
     height: 30,

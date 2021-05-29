@@ -8,7 +8,7 @@
 
 import 'react-native-gesture-handler';
 import React from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import configureStore from './src/store';

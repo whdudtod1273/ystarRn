@@ -33,8 +33,8 @@ const HeaderRight = ({content, filterUri, mainPhoto, tags}) => {
               .substr(1, tags[i].length - 1)
               .split('#');
           }
-          for (let i = 0; i < arr.length; i++) {
-            tag.push('#' + arr[i]);
+          for (let j = 0; j < arr.length; j++) {
+            tag.push('#' + arr[j]);
           }
         } else {
           if (tags[i][0] === '#') {
