@@ -1,4 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {
   View,
   Text,
@@ -10,10 +12,12 @@ import {
 } from 'react-native';
 const height = Dimensions.get('window').width / 3;
 const FeedGridList = ({list}) => {
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
       {list?.map((item, index) => {
         const url = item.Photo.url.split('/');
+
         return (
           <Pressable
             key={index}
@@ -24,6 +28,12 @@ const FeedGridList = ({list}) => {
               borderWidth: 1,
               borderColor: '#fff',
               flex: 1,
+            }}
+            onPress={() => {
+              navigation.navigate('post', {
+                writeId: item.id,
+                photoUrl: item.Photo.url,
+              });
             }}>
             <Image
               source={{

@@ -33,6 +33,7 @@ import Follow from '../screen/profile/follow/Follow';
 import Filter from '../screen/upload/Filter';
 import Write from '../screen/upload/Write';
 import Comment from '../screen/comment/Comment';
+import Post from '../screen/post/Post';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -99,6 +100,7 @@ function RootNavigation() {
             <Stack.Screen name="filter" component={Filter} />
             <Stack.Screen name="write" component={Write} />
             <Stack.Screen name="follow" component={Follow} />
+            <Stack.Screen name="post" component={Post} />
             <Stack.Screen
               options={{
                 title: '댓글',
