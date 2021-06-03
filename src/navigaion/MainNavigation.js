@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
 import HomeSvg from '../assets/svg/home.svg';
 import HomeSelectSvg from '../assets/svg/homeSelect.svg';
 import HeartSvg from '../assets/svg/heart.svg';
@@ -8,22 +9,7 @@ import PhotoSelectSvg from '../assets/svg/photoSelect.svg';
 import ProfileSvg from '../assets/svg/profile.svg';
 import SearchSvg from '../assets/svg/search.svg';
 import SearchSelectSvg from '../assets/svg/searchSelect.svg';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
-import {
-  NavigationContainer,
-  DrawerActions,
-  useNavigation,
-  CommonActions,
-} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {SafeAreaView, Pressable} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Home from '../screen/home/Home';
@@ -33,7 +19,6 @@ import Profile from '../screen/profile/Profile';
 const Tab = createBottomTabNavigator();
 
 function MainNavigation() {
-  const navigation = useNavigation();
   const TabBarIcon = (focused, name) => {
     if (name === 'home') {
       return focused ? (
@@ -64,7 +49,7 @@ function MainNavigation() {
     }
   };
   const temporary = () => {
-    return <Pressable></Pressable>;
+    return <Pressable />;
   };
 
   return (
@@ -87,9 +72,7 @@ function MainNavigation() {
           component={temporary}
           listeners={({navigation, route}) => ({
             tabPress: (e) => {
-              // Prevent default action
               e.preventDefault();
-              // Do something with the `navigation` object
               navigation.navigate('photo');
             },
           })}
@@ -100,6 +83,5 @@ function MainNavigation() {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({});
 
 export default MainNavigation;

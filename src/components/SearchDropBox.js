@@ -1,3 +1,5 @@
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import {$http} from '../api/fetcher';

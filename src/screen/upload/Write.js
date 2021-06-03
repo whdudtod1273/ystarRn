@@ -10,13 +10,14 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useSelector, shallowEqual} from 'react-redux';
 import SearchDropBox from '../../components/SearchDropBox';
 import {$http} from '../../api/fetcher';
 
 const HeaderRight = ({content, filterUri, mainPhoto, tags}) => {
   const navigation = useNavigation();
   const store = useSelector((state) => state, shallowEqual);
+
   const photoUpload = async () => {
     let tag = [];
     for (let i = 0; i < tags.length; i++) {
@@ -98,8 +99,8 @@ function Write({route}) {
   const [tags, setTags] = useState([]);
   const [tagListOpen, setTagListOpen] = useState(false);
   const searchDropBoxHeight = Dimensions.get('window').height - 100;
-  console.log(mainPhoto);
-  console.log(route);
+  const [searchItem, setSearchItem] = useState();
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: ({}) => (
@@ -153,10 +154,14 @@ function Write({route}) {
           top: 100,
           left: 0,
         }}>
-        <SearchDropBox content={content} tagOpen={setTagListOpen} />
+        <SearchDropBox
+          content={content}
+          tagOpen={setTagListOpen}
+          searchItem={setSearchItem}
+        />
       </View>
     </View>
   );
 }
-const styles = StyleSheet.create({});
+
 export default Write;

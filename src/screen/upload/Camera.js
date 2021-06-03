@@ -1,26 +1,23 @@
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useRef} from 'react';
 import {useNavigation, CommonActions} from '@react-navigation/native';
-import {RNCamera, FaceDetector} from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import CameraRoll from '@react-native-community/cameraroll';
-// import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
   Image,
   SafeAreaView,
   Text,
-  TextInput,
   View,
-  Modal,
-  StyleSheet,
   Dimensions,
   Pressable,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 
 function Camera() {
   const navigation = useNavigation();
   const screenW = Dimensions.get('screen').width;
-  const screenH = Dimensions.get('screen').height;
   const [cameraType, setCameraType] = useState(RNCamera.Constants.Type.back);
   const [photo, setPhots] = useState();
   const cameraRef = useRef();
@@ -46,7 +43,7 @@ function Camera() {
   };
 
   const change = () => {
-    if (cameraType == RNCamera.Constants.Type.back) {
+    if (cameraType === RNCamera.Constants.Type.back) {
       setCameraType(RNCamera.Constants.Type.front);
     } else {
       setCameraType(RNCamera.Constants.Type.back);
@@ -170,29 +167,4 @@ function Camera() {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  photoBox1: {},
-  photoBoxTop: {
-    position: 'absolute',
-    height: 100,
-    width: '100%',
-    paddingHorizontal: 20,
-    top: 0,
-    left: 0,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  photoBox2: {
-    position: 'absolute',
-    height: 150,
-    width: '100%',
-    bottom: 0,
-    left: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-});
 export default Camera;

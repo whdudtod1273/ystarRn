@@ -1,19 +1,15 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   Image,
-  SafeAreaView,
   Text,
-  TextInput,
   View,
-  Modal,
   StyleSheet,
   Dimensions,
   Pressable,
   FlatList,
-  Alert,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import {
   AdenCompat,
@@ -98,11 +94,11 @@ function Filter({route}) {
     Xpro2Compat,
     AdenCompat,
   ];
-  const [mainPhoto, setMainPhoto] = useState(route.params.picture);
+  const [mainPhoto] = useState(route.params.picture);
   const [filterUri, setFilterUri] = useState('');
   const [SelectFilter, setSelectFilter] = useState();
   const [selected, setSelected] = useState(false);
-  const [display, setDisplay] = useState('');
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: ({}) => (
@@ -117,8 +113,6 @@ function Filter({route}) {
         onPress={() => {
           setSelected(true);
           setSelectFilter(Filters);
-          setDisplay(Filters.item.displayName);
-          console.log(Filters);
         }}
         style={{
           width: 100,
@@ -147,16 +141,19 @@ function Filter({route}) {
       </TouchableOpacity>
     );
   };
-  const keyExtractor = useCallback((item, index) => index, []);
+  const keyExtractor = useCallback((item, index) => index.toString(), []);
 
-  const getItemLayout = useCallback((data, index) => ({
-    length: 200,
-    offset: 200 * index,
-    index,
-  }));
+  const getItemLayout = useCallback(
+    (data, index) => ({
+      length: 200,
+      offset: 200 * index,
+      index,
+    }),
+    [],
+  );
 
   return picture ? (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#101010'}}>
       <View
         style={[
           styles.itemBox1,
