@@ -15,6 +15,7 @@ import Filter from '../screen/upload/Filter';
 import Write from '../screen/upload/Write';
 import Comment from '../screen/comment/Comment';
 import Post from '../screen/post/Post';
+import Following from '../screen/profile/follow/Following';
 
 const Stack = createStackNavigator();
 

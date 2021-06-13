@@ -15,7 +15,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screen/home/Home';
 import Search from '../screen/search/Search';
 import Activity from '../screen/activity/Activity';
-import Profile from '../screen/profile/Profile';
+import MyProfile from '../screen/profile/MyProfile';
 const Tab = createBottomTabNavigator();
 
 function MainNavigation() {
@@ -44,7 +44,7 @@ function MainNavigation() {
       ) : (
         <HeartSvg width={25} height={25} />
       );
-    } else if (name === 'profile') {
+    } else if (name === 'myprofile') {
       return <ProfileSvg width={25} height={25} />;
     }
   };
@@ -78,7 +78,7 @@ function MainNavigation() {
           })}
         />
         <Tab.Screen name="activity" component={Activity} />
-        <Tab.Screen name="profile" component={Profile} />
+        <Tab.Screen name="myprofile" component={MyProfile} />
       </Tab.Navigator>
     </SafeAreaView>
   );

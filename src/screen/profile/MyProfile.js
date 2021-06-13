@@ -1,18 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {
-  Image,
   SafeAreaView,
   Text,
-  TextInput,
   View,
   StyleSheet,
   Pressable,
   Alert,
   ScrollView,
-  DeviceEventEmitter,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Modal from 'react-native-modal';
@@ -20,22 +16,22 @@ import PhotoSvg from '../../assets/svg/photo.svg';
 import MenuSvg from '../../assets/svg/menu.svg';
 import {logout} from '../../reducers/auth';
 import FeedList from '../../components/FeedGridList';
-import {$http, $baseUrl} from '../../api/fetcher';
+import {$http} from '../../api/fetcher';
+import FollowBox from '../../components/FollowBox';
 
-function Profile() {
+function MyProfile() {
   const store = useSelector((state) => state, shallowEqual);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState();
   const [myBoardList, setMyBoardList] = useState();
-  const [photo, setPhoto] = useState();
   const [profilePhoto, setProfilePhoto] = useState('');
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isVisibleState, setIsVisible] = useState(false);
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       if (profileData === undefined) {
         $http
           .get(`/api/account/mypage/${store.auth?.id}`)
@@ -62,52 +58,6 @@ function Profile() {
       return () => {};
     }, [profileData, store.auth?.id]),
   );
-
-  const profileAdd = async (ee) => {
-    try {
-      const formData = new FormData();
-      formData.append('url', {
-        uri: ee,
-        type: 'image/jpg',
-        name: 'da',
-      });
-
-      const response = await $http.post('/api/photo', formData, {
-        headers: {'content-type': 'multipart/form-data'},
-      });
-
-      const response2 = await $http.put(`/api/account/mypage`, {
-        userId: store.auth?.id,
-        intro: 'a',
-        photo: response.data.id,
-      });
-
-      if (response2.status === 200) {
-        const url = await response.data.url.split('/');
-        setProfilePhoto(`/api/image/${url[url.length - 1]}`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getProfile = async () => {
-    try {
-      const options = {
-        noData: true,
-        storageOptions: {
-          skipBackup: true,
-          privateDirectory: true,
-        },
-      };
-      launchImageLibrary(options, (res) => {
-        setPhoto(res.uri);
-        profileAdd(res.uri);
-      });
-    } catch (error) {
-      console.log('getPhoto', error);
-    }
-  };
 
   const logOut = () => {
     dispatch(logout());
@@ -170,46 +120,11 @@ function Profile() {
           </View>
         </View>
         <View style={[styles.conBox1]}>
-          <View style={{flexDirection: 'row'}}>
-            <Pressable
-              style={[styles.profileBox]}
-              onPress={() => {
-                getProfile();
-              }}>
-              <Image
-                source={{
-                  uri: $baseUrl + profilePhoto,
-                }}
-                style={{width: '100%', height: '100%', borderRadius: 70}}
-                resizeMode="cover"
-              />
-            </Pressable>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                flex: 1,
-              }}>
-              <Pressable style={[styles.btn1]}>
-                <Text style={[styles.text1]}>
-                  {profileData.BoardList.length}
-                </Text>
-                <Text style={[styles.text2, {marginTop: 3}]}>게시물</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.btn1]}
-                onPress={() => {
-                  navigation.navigate('follow');
-                }}>
-                <Text style={[styles.text1]}>{profileData.follower}</Text>
-                <Text style={[styles.text2, {marginTop: 3}]}>팔로워</Text>
-              </Pressable>
-              <Pressable style={[styles.btn1]}>
-                <Text style={[styles.text1]}>{profileData.following}</Text>
-                <Text style={[styles.text2, {marginTop: 3}]}>팔로잉</Text>
-              </Pressable>
-            </View>
-          </View>
+          <FollowBox
+            type="mypage"
+            profileData={profileData}
+            profilePhoto={setProfilePhoto}
+          />
           <Pressable style={[styles.profileEdit]}>
             <Text style={{fontSize: 17}}>프로필 편집</Text>
           </Pressable>
@@ -229,7 +144,6 @@ const styles = StyleSheet.create({
     height: 70,
     borderWidth: 3,
     borderColor: '#dedede',
-    // backgroundColor: '#fff',
     borderRadius: 70,
   },
   conBox1: {
@@ -257,4 +171,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default Profile;
+export default MyProfile;

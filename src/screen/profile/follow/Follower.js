@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -9,10 +9,13 @@ import {
   Pressable,
 } from 'react-native';
 
-function Follower() {
+function Follower({route}) {
+  const userId = route.params?.userId;
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View></View>
+      <View>
+        <Text>팔로워</Text>
+      </View>
     </SafeAreaView>
   );
 }

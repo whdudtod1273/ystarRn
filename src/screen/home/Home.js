@@ -35,7 +35,7 @@ function Home() {
         });
         setBoardList(data);
       });
-    }, [store.auth.id]),
+    }, [store.auth?.id]),
   );
 
   return (
