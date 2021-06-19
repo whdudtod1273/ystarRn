@@ -64,7 +64,17 @@ const FeedItem = ({item}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <View style={[styles.feedHead]}>
+      <Pressable
+        onPress={() => {
+          if (item.id === store.auth.id) {
+            navigation.navigate('myprofile');
+          } else {
+            navigation.navigate('userProfile', {
+              userId: item.id,
+            });
+          }
+        }}
+        style={[styles.feedHead]}>
         <View
           style={{
             flexDirection: 'row',
@@ -78,7 +88,7 @@ const FeedItem = ({item}) => {
           <Text>{item.User.username}</Text>
         </View>
         <More width={15} height={15} />
-      </View>
+      </Pressable>
       <Image
         source={{uri: $baseUrl + boardPhoto}}
         style={[{width: '100%', height: height}]}

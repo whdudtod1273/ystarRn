@@ -16,6 +16,7 @@ import Write from '../screen/upload/Write';
 import Comment from '../screen/comment/Comment';
 import Post from '../screen/post/Post';
 import Following from '../screen/profile/follow/Following';
+import UserProfile from '../screen/profile/UserProfile';
 
 const Stack = createStackNavigator();
 
@@ -82,6 +83,11 @@ function RootNavigation() {
           <Stack.Screen name="write" component={Write} />
           <Stack.Screen name="follow" component={Follow} />
           <Stack.Screen name="post" component={Post} />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="userProfile"
+            component={UserProfile}
+          />
           <Stack.Screen
             options={{
               title: '댓글',

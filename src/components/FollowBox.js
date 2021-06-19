@@ -1,14 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, Pressable, StyleSheet} from 'react-native';
 import {shallowEqual, useSelector} from 'react-redux';
 import {$baseUrl, $http} from '../api/fetcher';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useNavigation, CommonActions} from '@react-navigation/native';
-const FollowBox = ({type, profileData}) => {
+const FollowBox = ({type, profileData, profilePhotoBasic}) => {
   const store = useSelector((state) => state, shallowEqual);
   const navigation = useNavigation();
-  const [profilePhoto, setProfilePhoto] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState();
+  const [following, setFollowing] = useState(profileData?.following);
+  const [follower, setFollower] = useState(profileData?.follower);
+  useEffect(() => {
+    setProfilePhoto(profilePhotoBasic);
+  }, [profilePhotoBasic]);
+
+  useEffect(() => {
+    setFollowing(profileData?.following);
+    setFollower(profileData?.follower);
+  }, [profileData]);
 
   const getProfile = async () => {
     try {
@@ -77,7 +87,7 @@ const FollowBox = ({type, profileData}) => {
           flex: 1,
         }}>
         <Pressable style={[styles.btn1]}>
-          <Text style={[styles.text1]}>{profileData.BoardList.length}</Text>
+          <Text style={[styles.text1]}>{profileData?.BoardList.length}</Text>
           <Text style={[styles.text2, {marginTop: 3}]}>게시물</Text>
         </Pressable>
         <Pressable
@@ -88,7 +98,7 @@ const FollowBox = ({type, profileData}) => {
               params: {userId: profileData.id},
             });
           }}>
-          <Text style={[styles.text1]}>{profileData.follower}</Text>
+          <Text style={[styles.text1]}>{follower}</Text>
           <Text style={[styles.text2, {marginTop: 3}]}>팔로워</Text>
         </Pressable>
         <Pressable
@@ -99,7 +109,7 @@ const FollowBox = ({type, profileData}) => {
               params: {userId: profileData.id},
             });
           }}>
-          <Text style={[styles.text1]}>{profileData.following}</Text>
+          <Text style={[styles.text1]}>{following}</Text>
           <Text style={[styles.text2, {marginTop: 3}]}>팔로잉</Text>
         </Pressable>
       </View>

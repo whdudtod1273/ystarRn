@@ -32,31 +32,31 @@ function MyProfile() {
 
   useFocusEffect(
     useCallback(() => {
-      if (profileData === undefined) {
-        $http
-          .get(`/api/account/mypage/${store.auth?.id}`)
-          .then((res) => {
-            setProfileData(res.data);
-            setMyBoardList(res.data.BoardList);
-            const url = res.data.Profile.url.split('/');
-            setProfilePhoto(`/api/image/${url[url.length - 1]}`);
-          })
-          .catch((error) => {
-            console.log('account/mypage/:id', error);
-          });
+      $http
+        .get(`/api/account/mypage/${store.auth?.id}`)
+        .then((res) => {
+          console.log('mypage', res.data);
+          setProfileData(res.data);
+          setMyBoardList(res.data.BoardList);
+          const url = res.data.Profile.url.split('/');
+          setProfilePhoto(`/api/image/${url[url.length - 1]}`);
+        })
+        .catch((error) => {
+          console.log('account/mypage/:id', error);
+        });
 
-        $http
-          .get(`/api/account/follow/${store.auth?.id}`)
-          .then((res) => {
-            setFollower(res.data.Follower);
-            setFollower(res.data.Following);
-          })
-          .catch((error) => {
-            console.log('account/follow:id', error);
-          });
-      }
+      $http
+        .get(`/api/account/follow/${store.auth?.id}`)
+        .then((res) => {
+          setFollower(res.data.Follower);
+          setFollower(res.data.Following);
+        })
+        .catch((error) => {
+          console.log('account/follow:id', error);
+        });
+
       return () => {};
-    }, [profileData, store.auth?.id]),
+    }, [store.auth?.id]),
   );
 
   const logOut = () => {
@@ -123,7 +123,7 @@ function MyProfile() {
           <FollowBox
             type="mypage"
             profileData={profileData}
-            profilePhoto={setProfilePhoto}
+            profilePhotoBasic={profilePhoto}
           />
           <Pressable style={[styles.profileEdit]}>
             <Text style={{fontSize: 17}}>프로필 편집</Text>
