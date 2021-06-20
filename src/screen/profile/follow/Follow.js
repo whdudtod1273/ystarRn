@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -10,6 +10,7 @@ import {
   Pressable,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import Follower from './Follower';
 import Following from './Following';
 import {$http} from '../../../api/fetcher';
@@ -17,17 +18,34 @@ import {$http} from '../../../api/fetcher';
 const Tab = createMaterialTopTabNavigator();
 
 function Follow({route}) {
+  const navigation = useNavigation();
   const userId = route.params.params.userId;
+
   useEffect(() => {
     $http
       .get(`/api/account/follow/${userId}`)
       .then((res) => {
-        console.log(res);
+        navigation.dispatch(
+          CommonActions.navigate({
+            name: '팔로워',
+            params: {
+              follower: res.data.Follower,
+            },
+          }),
+        );
+        navigation.dispatch(
+          CommonActions.navigate({
+            name: '팔로잉',
+            params: {
+              following: res.data.Following,
+            },
+          }),
+        );
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [userId]);
+  }, [navigation, userId]);
 
   return (
     <SafeAreaView style={{flex: 1}}>

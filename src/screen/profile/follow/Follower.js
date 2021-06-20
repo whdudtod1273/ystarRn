@@ -8,13 +8,17 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
+import FollowList from '../../../components/FollowList';
 
 function Follower({route}) {
   const userId = route.params?.userId;
+  const follower = route.params?.follower;
+
+  console.log(route);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View>
-        <Text>팔로워</Text>
+        <FollowList />
       </View>
     </SafeAreaView>
   );
