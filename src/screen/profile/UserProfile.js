@@ -41,7 +41,6 @@ const UserProfile = ({route}) => {
     $http
       .get(`/api/account/mypage/${userId}`)
       .then((res) => {
-        console.log(res);
         if (res.data.checkFollower.length !== 0) {
           res.data.checkFollower.filter((item) => {
             if (item.id === store.auth.id) {
@@ -75,7 +74,6 @@ const UserProfile = ({route}) => {
             },
           })
           .then((res) => {
-            console.log(profileData);
             setFollowCheck(false);
             getUserData();
           })
@@ -88,7 +86,6 @@ const UserProfile = ({route}) => {
             to: userId,
           })
           .then((res) => {
-            console.log(profileData);
             setFollowCheck(true);
             getUserData();
           })

@@ -1,36 +1,13 @@
-import React, {useEffect, useCallback} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {$http} from '../../../api/fetcher';
+import React from 'react';
+import {SafeAreaView, View} from 'react-native';
+import FollowList from '../../../components/FollowList';
 
 function Following({route}) {
-  const userId = route.params?.userId;
-  useFocusEffect(
-    useCallback(() => {
-      $http
-        .get(`/api/account/follow/${userId}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      return () => {};
-    }, [userId]),
-  );
-
+  const following = route.params?.following;
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View>
-        <Text>팔로잉</Text>
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <FollowList followings={following} />
       </View>
     </SafeAreaView>
   );

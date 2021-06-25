@@ -95,7 +95,10 @@ const FollowBox = ({type, profileData, profilePhotoBasic}) => {
           onPress={() => {
             navigation.navigate('follow', {
               screen: '팔로워',
-              params: {userId: profileData.id},
+              params: {
+                userId: profileData.id,
+                followType: 'follower',
+              },
             });
           }}>
           <Text style={[styles.text1]}>{follower}</Text>
@@ -106,7 +109,10 @@ const FollowBox = ({type, profileData, profilePhotoBasic}) => {
           onPress={() => {
             navigation.navigate('follow', {
               screen: '팔로잉',
-              params: {userId: profileData.id},
+              params: {
+                userId: profileData.id,
+                followType: 'following',
+              },
             });
           }}>
           <Text style={[styles.text1]}>{following}</Text>

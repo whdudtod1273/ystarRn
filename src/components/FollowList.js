@@ -10,12 +10,21 @@ import {
   Dimensions,
 } from 'react-native';
 import {useSelector, shallowEqual} from 'react-redux';
+import FollowItem from './FollowItem';
 
-const FollowList = () => {
-  return <View></View>;
+const FollowList = ({followers}) => {
+  return (
+    <View style={[styles.container]}>
+      {followers &&
+        followers.map((follower, index) => {
+          return <FollowItem follower={follower} key={`f-${index}`} />;
+        })}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
+  container: {paddingHorizontal: 15, paddingVertical: 10},
   name: {fontSize: 15, color: '#000', fontWeight: 'bold'},
 });
 

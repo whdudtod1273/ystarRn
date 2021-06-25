@@ -1,14 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import Follower from './Follower';
@@ -20,32 +12,41 @@ const Tab = createMaterialTopTabNavigator();
 function Follow({route}) {
   const navigation = useNavigation();
   const userId = route.params.params.userId;
-
+  const followType = route.params.params?.followType;
+  const [followers, setFollowers] = useState();
+  const [followings, setFollowings] = useState();
   useEffect(() => {
     $http
       .get(`/api/account/follow/${userId}`)
       .then((res) => {
-        navigation.dispatch(
-          CommonActions.navigate({
-            name: '팔로워',
-            params: {
-              follower: res.data.Follower,
-            },
-          }),
-        );
-        navigation.dispatch(
-          CommonActions.navigate({
-            name: '팔로잉',
-            params: {
-              following: res.data.Following,
-            },
-          }),
-        );
+        setFollowers(res.data.Follower);
+        setFollowings(res.data.Following);
+        console.log(followType);
+        console.log(res.data);
+        if (followType === 'follower') {
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: '팔로워',
+              params: {
+                follower: res.data.Follower,
+              },
+            }),
+          );
+        } else if (followType === 'following') {
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: '팔로잉',
+              params: {
+                following: res.data.Following,
+              },
+            }),
+          );
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [navigation, userId]);
+  }, [followType, navigation, userId]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -57,6 +58,7 @@ function Follow({route}) {
             tabPress: (e) => {
               navigation.navigate('팔로워', {
                 userId: userId,
+                follower: followers,
               });
             },
           })}
@@ -68,6 +70,7 @@ function Follow({route}) {
             tabPress: (e) => {
               navigation.navigate('팔로잉', {
                 userId: userId,
+                following: followings,
               });
             },
           })}
