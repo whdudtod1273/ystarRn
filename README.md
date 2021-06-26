@@ -1,6 +1,6 @@
 # React Native Instargram
 
-## This is an Instagram clone application used by react-native.
+This is an Instagram clone application used by react-native.
 
 # Installation
 
