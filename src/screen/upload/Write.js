@@ -6,7 +6,6 @@ import {
   Text,
   TextInput,
   View,
-  StyleSheet,
   Pressable,
   Dimensions,
 } from 'react-native';

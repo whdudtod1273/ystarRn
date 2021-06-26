@@ -1,24 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useCallback} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {
-  Image,
   SafeAreaView,
   Text,
   View,
   StyleSheet,
   Pressable,
-  Alert,
   ScrollView,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import PhotoSvg from '../../assets/svg/photo.svg';
 import Bell from '../../assets/svg/bell.svg';
 import More from '../../assets/svg/more.svg';
 import Back from '../../assets/svg/backIcon.svg';
-import MenuSvg from '../../assets/svg/menu.svg';
-import {logout} from '../../reducers/auth';
 import FeedList from '../../components/FeedGridList';
 import {$http} from '../../api/fetcher';
 import FollowBox from '../../components/FollowBox';

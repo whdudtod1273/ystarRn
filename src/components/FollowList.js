@@ -1,23 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {
-  Image,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  Pressable,
-  Dimensions,
-} from 'react-native';
-import {useSelector, shallowEqual} from 'react-redux';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import FollowItem from './FollowItem';
 
-const FollowList = ({followers}) => {
+const FollowList = ({followers, followings}) => {
   return (
     <View style={[styles.container]}>
       {followers &&
         followers.map((follower, index) => {
-          return <FollowItem follower={follower} key={`f-${index}`} />;
+          return <FollowItem followData={follower} key={`follower-${index}`} />;
+        })}
+      {followings &&
+        followings.map((following, index) => {
+          return (
+            <FollowItem followData={following} key={`following-${index}`} />
+          );
         })}
     </View>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native';
@@ -21,14 +22,13 @@ function Follow({route}) {
       .then((res) => {
         setFollowers(res.data.Follower);
         setFollowings(res.data.Following);
-        console.log(followType);
-        console.log(res.data);
         if (followType === 'follower') {
           navigation.dispatch(
             CommonActions.navigate({
               name: '팔로워',
               params: {
                 follower: res.data.Follower,
+                followType: followType,
               },
             }),
           );
@@ -38,6 +38,7 @@ function Follow({route}) {
               name: '팔로잉',
               params: {
                 following: res.data.Following,
+                followType: followType,
               },
             }),
           );
@@ -59,6 +60,7 @@ function Follow({route}) {
               navigation.navigate('팔로워', {
                 userId: userId,
                 follower: followers,
+                followType: followType,
               });
             },
           })}
@@ -71,6 +73,7 @@ function Follow({route}) {
               navigation.navigate('팔로잉', {
                 userId: userId,
                 following: followings,
+                followType: followType,
               });
             },
           })}

@@ -1,24 +1,16 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {
-  Image,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import {Image, Text, View, StyleSheet, Pressable} from 'react-native';
 import {useSelector, shallowEqual} from 'react-redux';
 import {$baseUrl, $http} from '../api/fetcher';
 
-const FollowItem = ({follower}) => {
+const FollowItem = ({followData}) => {
   const store = useSelector((state) => state, shallowEqual);
   const [profileImg, setProfileImg] = useState('');
   const [followCheck, setFollowCheck] = useState();
   useEffect(() => {
     $http
-      .get(`/api/account/mypage/${follower.id}`)
+      .get(`/api/account/mypage/${followData.id}`)
       .then((res) => {
         if (res.data.checkFollower.length !== 0) {
           res.data.checkFollower.filter((item) => {
@@ -39,15 +31,15 @@ const FollowItem = ({follower}) => {
       .catch((error) => {
         console.log('account/mypage/:id', error);
       });
-  }, [follower.id, store.auth.id]);
+  }, [followData.id, store.auth.id]);
 
   const FollowBtn = () => {
     followCheck
       ? $http
-          .delete(`/api/account/follow/${follower.id}`, {
+          .delete(`/api/account/follow/${followData.id}`, {
             data: {
               from: store?.auth?.id,
-              to: follower.id,
+              to: followData.id,
             },
           })
           .then((res) => {
@@ -57,9 +49,9 @@ const FollowItem = ({follower}) => {
             console.log(error);
           })
       : $http
-          .post(`/api/account/follow/${follower.id}`, {
+          .post(`/api/account/follow/${followData.id}`, {
             from: store?.auth?.id,
-            to: follower.id,
+            to: followData.id,
           })
           .then((res) => {
             setFollowCheck(true);
@@ -77,7 +69,7 @@ const FollowItem = ({follower}) => {
           style={[styles.profileImg]}
           resizeMode="cover"
         />
-        <Text style={[styles.name]}>{follower?.username}</Text>
+        <Text style={[styles.name]}>{followData?.username}</Text>
       </View>
 
       {followCheck === true || followCheck === false ? (

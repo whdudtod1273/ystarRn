@@ -4,7 +4,7 @@ import {View, Text, Image, Pressable, StyleSheet} from 'react-native';
 import {shallowEqual, useSelector} from 'react-redux';
 import {$baseUrl, $http} from '../api/fetcher';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useNavigation, CommonActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 const FollowBox = ({type, profileData, profilePhotoBasic}) => {
   const store = useSelector((state) => state, shallowEqual);
   const navigation = useNavigation();
@@ -50,7 +50,7 @@ const FollowBox = ({type, profileData, profilePhotoBasic}) => {
         headers: {'content-type': 'multipart/form-data'},
       });
 
-      const response2 = await $http.put(`/api/account/mypage`, {
+      const response2 = await $http.put('/api/account/mypage', {
         userId: store.auth?.id,
         intro: 'a',
         photo: response.data.id,
@@ -70,7 +70,9 @@ const FollowBox = ({type, profileData, profilePhotoBasic}) => {
       <Pressable
         style={[styles.profileBox]}
         onPress={() => {
-          if (type === 'mypage') getProfile();
+          if (type === 'mypage') {
+            getProfile();
+          }
         }}>
         <Image
           source={{
